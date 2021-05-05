@@ -16,6 +16,12 @@
         VALUES(#{id}, #{password}, #{salt}, #{refreshToken});
     </insert>
 
+    <update id="updateRefreshToken" parameterType="adminDTO">
+        UPDATE admins_tb
+        SET refresh_token = #{refreshToken}
+        WHERE id = #{id};
+    </update>
+
     <select id="searchAdmin" resultMap="selectAdminMap">
         SELECT * FROM admins_tb
         WHERE id = #{id};

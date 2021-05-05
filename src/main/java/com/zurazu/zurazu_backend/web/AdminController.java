@@ -1,6 +1,7 @@
 package com.zurazu.zurazu_backend.web;
 
 import com.zurazu.zurazu_backend.core.security.Role.Role;
+import com.zurazu.zurazu_backend.exception.errors.AdminLevelFailedException;
 import com.zurazu.zurazu_backend.exception.errors.CustomJwtRuntimeException;
 import com.zurazu.zurazu_backend.exception.errors.LoginFailedException;
 import com.zurazu.zurazu_backend.provider.dto.AdminDTO;
@@ -29,7 +30,6 @@ import java.util.HashMap;
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
-    private final JwtAuthTokenProvider jwtAuthTokenProvider;
 
     @PostMapping("/register")
     public ResponseEntity<CommonResponse> registerAdmin(@Valid RegisterAdminDTO adminDTO) { //@Valid로 파라미터 validation
@@ -46,13 +46,14 @@ public class AdminController {
     public ResponseEntity<CommonResponse> loginAdmin(@Valid LoginAdminDTO adminDTO) {
         AdminDTO admin = adminService.loginAdmin(adminDTO).orElseThrow(()->new LoginFailedException());
 
-        Date expiredDate = Date.from(LocalDateTime.now().plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 2분만 유지되도록 설정, 2분 후 refresh token
-        JwtAuthToken accessToken = jwtAuthTokenProvider.createAuthToken(admin.getId(), Role.ADMIN.getCode(), expiredDate);  //토큰 발급
-        String refreshToken = admin.getRefreshToken();
+        if(admin.getGrade() <= 0) {
+            //레벨 부여가 되지 않은 경우
+            throw new AdminLevelFailedException();
+        }
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("accessToken", accessToken.getToken());
-        map.put("refreshToken", refreshToken);
+        map.put("accessToken", admin.getAccessToken());
+        map.put("refreshToken", admin.getRefreshToken());
 
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
@@ -65,17 +66,10 @@ public class AdminController {
     @PostMapping("/refreshToken")
     public ResponseEntity<CommonResponse> refreshTokenAdmin(@Valid RefreshTokenAdminDTO adminDTO) {
         // refresh 토큰을 검증하고 맞다면 access token 발급
-        JwtAuthToken jwtAuthToken = jwtAuthTokenProvider.convertAuthToken(adminDTO.getRefreshToken());
-        if(!jwtAuthToken.validate()) {
-            throw new CustomJwtRuntimeException();
-        }
-        String id = String.valueOf(jwtAuthToken.getData().get("id"));
-
-        Date expiredDate = Date.from(LocalDateTime.now().plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 2분만 유지되도록 설정, 2분 후 refresh token
-        JwtAuthToken accessToken = jwtAuthTokenProvider.createAuthToken(id, Role.ADMIN.getCode(), expiredDate);  //토큰 발급
+        String accessToken = adminService.validAdminRefreshToken(adminDTO).orElseThrow(()-> new CustomJwtRuntimeException());
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("accessToken", accessToken.getToken());
+        map.put("accessToken", accessToken);
 
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)

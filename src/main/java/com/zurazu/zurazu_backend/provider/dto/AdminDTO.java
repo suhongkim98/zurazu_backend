@@ -12,4 +12,5 @@ public class AdminDTO {
     private String salt;
     private int grade; // 어드민 등급
     private String refreshToken;
+    private String accessToken;
 }
