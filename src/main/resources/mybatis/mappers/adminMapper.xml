@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminTable">
+
+    <resultMap id="selectAdminMap" type="adminDTO">
+        <id column="idx" property="idx"/>
+        <result column="id" property="id" />
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="refresh_token" property="refreshToken" />
+        <result column="grade" property="grade" />
+    </resultMap>
+
+    <insert id="insertAdmin" parameterType="adminDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx" >
+        INSERT INTO admins_tb(id, password, salt, refresh_token)
+        VALUES(#{id}, #{password}, #{salt}, #{refreshToken});
+    </insert>
+
+    <select id="searchAdmin" resultMap="selectAdminMap">
+        SELECT * FROM admins_tb
+        WHERE id = #{id};
+    </select>
+
+    <select id="validAdmin" parameterType="adminDTO" resultMap="selectAdminMap">
+        SELECT * FROM admins_tb
+        WHERE id = #{id} AND password = #{password};
+    </select>
+</mapper>
