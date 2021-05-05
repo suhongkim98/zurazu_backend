@@ -2,16 +2,13 @@ package com.zurazu.zurazu_backend.provider.service;
 
 import com.zurazu.zurazu_backend.core.security.Role.Role;
 import com.zurazu.zurazu_backend.core.service.AdminServiceInterface;
-import com.zurazu.zurazu_backend.exception.errors.AdminLevelFailedException;
-import com.zurazu.zurazu_backend.exception.errors.CustomJwtRuntimeException;
-import com.zurazu.zurazu_backend.exception.errors.RegisterFailException;
 import com.zurazu.zurazu_backend.provider.dto.AdminDTO;
 import com.zurazu.zurazu_backend.provider.repository.AdminDAO;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthToken;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthTokenProvider;
 import com.zurazu.zurazu_backend.util.SHA256Util;
 import com.zurazu.zurazu_backend.web.dto.LoginAdminDTO;
-import com.zurazu.zurazu_backend.web.dto.RefreshTokenAdminDTO;
+import com.zurazu.zurazu_backend.web.dto.RefreshTokenDTO;
 import com.zurazu.zurazu_backend.web.dto.RegisterAdminDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -77,8 +74,8 @@ public class AdminService implements AdminServiceInterface {
     }
 
     @Override
-    public Optional<String> validAdminRefreshToken(RefreshTokenAdminDTO refreshTokenAdminDTO) {
-        JwtAuthToken jwtAuthToken = jwtAuthTokenProvider.convertAuthToken(refreshTokenAdminDTO.getRefreshToken());
+    public Optional<String> validAdminRefreshToken(RefreshTokenDTO refreshTokenDTO) {
+        JwtAuthToken jwtAuthToken = jwtAuthTokenProvider.convertAuthToken(refreshTokenDTO.getRefreshToken());
         if(!jwtAuthToken.validate()) {
             return Optional.empty();
         }

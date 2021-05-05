@@ -1,16 +1,13 @@
 package com.zurazu.zurazu_backend.web;
 
-import com.zurazu.zurazu_backend.core.security.Role.Role;
 import com.zurazu.zurazu_backend.exception.errors.AdminLevelFailedException;
 import com.zurazu.zurazu_backend.exception.errors.CustomJwtRuntimeException;
 import com.zurazu.zurazu_backend.exception.errors.LoginFailedException;
 import com.zurazu.zurazu_backend.provider.dto.AdminDTO;
-import com.zurazu.zurazu_backend.provider.security.JwtAuthToken;
-import com.zurazu.zurazu_backend.provider.security.JwtAuthTokenProvider;
 import com.zurazu.zurazu_backend.provider.service.AdminService;
 import com.zurazu.zurazu_backend.web.dto.CommonResponse;
 import com.zurazu.zurazu_backend.web.dto.LoginAdminDTO;
-import com.zurazu.zurazu_backend.web.dto.RefreshTokenAdminDTO;
+import com.zurazu.zurazu_backend.web.dto.RefreshTokenDTO;
 import com.zurazu.zurazu_backend.web.dto.RegisterAdminDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.HashMap;
 
 @RestController
@@ -64,7 +58,7 @@ public class AdminController {
     }
 
     @PostMapping("/refreshToken")
-    public ResponseEntity<CommonResponse> refreshTokenAdmin(@Valid RefreshTokenAdminDTO adminDTO) {
+    public ResponseEntity<CommonResponse> refreshTokenAdmin(@Valid RefreshTokenDTO adminDTO) {
         // refresh 토큰을 검증하고 맞다면 access token 발급
         String accessToken = adminService.validAdminRefreshToken(adminDTO).orElseThrow(()-> new CustomJwtRuntimeException());
 
