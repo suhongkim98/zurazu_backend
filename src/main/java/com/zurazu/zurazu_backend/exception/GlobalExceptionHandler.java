@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
                 .status(ErrorCode.INVALID_JWT_TOKEN.getStatus())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
     @ExceptionHandler(RegisterFailException.class)
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
                 .status(ErrorCode.REGISTER_FAILED.getStatus())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(response, response.getStatus());
     }
     @ExceptionHandler(LoginFailedException.class)
     protected ResponseEntity<ErrorResponse> handleLoginFailedException(LoginFailedException e) {
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
                 .status(ErrorCode.LOGIN_FAILED.getStatus())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(response, response.getStatus());
     }
     @ExceptionHandler(AdminLevelFailedException.class)
     protected ResponseEntity<ErrorResponse> handleAdminLevelFailedExcetion(AdminLevelFailedException e) {
@@ -69,6 +69,6 @@ public class GlobalExceptionHandler {
                 .status(ErrorCode.ADMIN_LEVEL_FAILED.getStatus())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, response.getStatus());
     }
 }
