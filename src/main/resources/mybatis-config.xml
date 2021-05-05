@@ -4,5 +4,6 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="adminDTO" type="com.zurazu.zurazu_backend.provider.dto.AdminDTO"/>
+        <typeAlias alias="memberDTO" type="com.zurazu.zurazu_backend.provider.dto.MemberDTO" />
     </typeAliases>
 </configuration>

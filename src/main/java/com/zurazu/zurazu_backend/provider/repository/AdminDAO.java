@@ -27,10 +27,6 @@ public class AdminDAO implements AdminDAOInterface {
     public AdminDTO findAdmin(String id) {
         //아이디로 검색
         AdminDTO admin = sqlSession.selectOne("adminTable.searchAdmin", id);
-        if(admin == null) {
-            // 아이디 없음
-            return null;
-        }
         return admin;
     }
 
