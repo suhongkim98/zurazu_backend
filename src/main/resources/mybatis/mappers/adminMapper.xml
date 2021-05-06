@@ -19,7 +19,7 @@
     <update id="updateRefreshToken" parameterType="adminDTO">
         UPDATE admins_tb
         SET refresh_token = #{refreshToken}
-        WHERE id = #{id};
+        WHERE idx = #{idx};
     </update>
 
     <select id="searchAdmin" resultMap="selectAdminMap">

@@ -11,6 +11,6 @@ public interface AdminServiceInterface {
     void registerAdmin(RegisterAdminDTO registerAdminDTO);
     Optional<AdminDTO> loginAdmin(LoginAdminDTO loginAdminDTO);
     Optional<String> validAdminRefreshToken(RefreshTokenDTO refreshTokenDTO);
-    String createAccessToken(String id);
-    String createRefreshToken(String id);
+    String createAccessToken(String idx);
+    String createRefreshToken(String idx);
 }

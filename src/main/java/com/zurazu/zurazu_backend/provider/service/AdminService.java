@@ -26,7 +26,6 @@ public class AdminService implements AdminServiceInterface {
 
     @Override
     public void registerAdmin(RegisterAdminDTO registerAdminDTO) {
-        String refreshToken = createRefreshToken(registerAdminDTO.getId());
         String salt = SHA256Util.generateSalt(); // salt
         String encryptedPassword = SHA256Util.getEncrypt(registerAdminDTO.getPassword(), salt); // 암호화
 
@@ -34,7 +33,6 @@ public class AdminService implements AdminServiceInterface {
         admin.setId(registerAdminDTO.getId());
         admin.setPassword(encryptedPassword);
         admin.setSalt(salt);
-        admin.setRefreshToken(refreshToken);
 
         adminDAO.registerAdmin(admin);
     }
@@ -56,15 +54,22 @@ public class AdminService implements AdminServiceInterface {
             return Optional.empty();
         }
 
-        String accessToken = createAccessToken(admin.getId());
+        String accessToken = createAccessToken(String.valueOf(admin.getIdx()));
 
+        String refreshToken;
         // db에서 꺼낸 refresh토큰이 만료된 경우 재발급
-        JwtAuthToken jwtAuthRefreshToken = jwtAuthTokenProvider.convertAuthToken(admin.getRefreshToken());
-        String refreshToken = jwtAuthRefreshToken.getToken();
-        if(!jwtAuthRefreshToken.validate()) {
-            refreshToken = createRefreshToken(admin.getId());
+        if(admin.getRefreshToken() == null) {
+            refreshToken = createRefreshToken(String.valueOf(admin.getIdx()));
             // 재발급 받았으니 디비에 삽입
-            adminDAO.updateRefreshToken(admin.getId(), refreshToken);
+            adminDAO.updateRefreshToken(String.valueOf(admin.getIdx()), refreshToken);
+        } else {
+            JwtAuthToken jwtAuthRefreshToken = jwtAuthTokenProvider.convertAuthToken(admin.getRefreshToken());
+            refreshToken = jwtAuthRefreshToken.getToken();
+            if(!jwtAuthRefreshToken.validate()) {
+                refreshToken = createRefreshToken(String.valueOf(admin.getIdx()));
+                // 재발급 받았으니 디비에 삽입
+                adminDAO.updateRefreshToken(String.valueOf(admin.getIdx()), refreshToken);
+            }
         }
 
         admin.setAccessToken(accessToken);
@@ -87,17 +92,17 @@ public class AdminService implements AdminServiceInterface {
     }
 
     @Override
-    public String createAccessToken(String id) {
+    public String createAccessToken(String idx) {
         Date expiredDate = Date.from(LocalDateTime.now().plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 2분만 유지되도록 설정, 2분 후 refresh token
-        JwtAuthToken accessToken = jwtAuthTokenProvider.createAuthToken(id, Role.ADMIN.getCode(), expiredDate);  //토큰 발급
+        JwtAuthToken accessToken = jwtAuthTokenProvider.createAuthToken(idx, Role.ADMIN.getCode(), expiredDate);  //토큰 발급
 
         return accessToken.getToken();
     }
 
     @Override
-    public String createRefreshToken(String id) {
+    public String createRefreshToken(String idx) {
         Date expiredDate = Date.from(LocalDateTime.now().plusYears(1).atZone(ZoneId.systemDefault()).toInstant()); // refresh토큰은 유효기간이 1년
-        JwtAuthToken refreshToken = jwtAuthTokenProvider.createAuthToken(id, Role.ADMIN.getCode(), expiredDate);  //토큰 발급
+        JwtAuthToken refreshToken = jwtAuthTokenProvider.createAuthToken(idx, Role.ADMIN.getCode(), expiredDate);  //토큰 발급
         return refreshToken.getToken();
     }
 

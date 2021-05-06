@@ -36,9 +36,9 @@ public class AdminDAO implements AdminDAOInterface {
     }
 
     @Override
-    public void updateRefreshToken(String id, String token) {
+    public void updateRefreshToken(String idx, String token) {
         AdminDTO admin = new AdminDTO();
-        admin.setId(id);
+        admin.setIdx(Integer.valueOf(idx));
         admin.setRefreshToken(token);
         sqlSession.update("adminTable.updateRefreshToken", admin);
     }

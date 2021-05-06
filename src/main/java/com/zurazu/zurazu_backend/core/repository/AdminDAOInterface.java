@@ -8,5 +8,5 @@ public interface AdminDAOInterface {
     void registerAdmin(AdminDTO adminDTO);
     AdminDTO findAdmin(String id);
     AdminDTO validAdmin(AdminDTO adminDTO); // 아이디 비밀번호 검증
-    void updateRefreshToken(String id, String token);
+    void updateRefreshToken(String idx, String token);
 }
