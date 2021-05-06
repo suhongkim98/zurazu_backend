@@ -17,6 +17,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> excludePatterns = Arrays.asList(
                 "/admin/login","/admin/register","/admin/refreshToken","/member/login","/member/register","/member/refreshToken");
+
+        excludePatterns.add("/upload"); // s3업로드 테스트용 경로, 나중에 삭제하장
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(excludePatterns); // 경로지정하기

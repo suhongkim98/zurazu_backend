@@ -6,6 +6,7 @@ target/
 
 ### data ###
 /src/main/resources/application.properties
+aws.yml
 
 ### STS ###
 .apt_generated
