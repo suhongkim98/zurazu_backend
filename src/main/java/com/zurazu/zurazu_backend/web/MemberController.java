@@ -25,7 +25,7 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<CommonResponse> registerMember(@Valid MemberWebDTO memberWebDTO) {
-        memberService.registerMember(memberWebDTO);
+        memberService.registerMemberByEmail(memberWebDTO);
 
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
@@ -37,7 +37,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<CommonResponse> loginMember(@Valid MemberWebDTO memberWebDTO) {
-        MemberDTO member = memberService.loginMember(memberWebDTO).orElseThrow(()->new LoginFailedException());
+        MemberDTO member = memberService.loginMemberByEmail(memberWebDTO).orElseThrow(()->new LoginFailedException());
 
         HashMap<String, String> map = new HashMap<>();
         map.put("accessToken", member.getAccessToken());

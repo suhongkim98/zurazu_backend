@@ -12,30 +12,30 @@ import org.springframework.stereotype.Repository;
 public class MemberDAO implements MemberDAOInterface {
     private final SqlSessionTemplate sqlSession;
     @Override
-    public void registerMember(MemberDTO memberDTO) {
-        MemberDTO isExistMember = findMember(memberDTO.getEmail());
+    public void registerMemberByEmail(MemberDTO memberDTO) {
+        MemberDTO isExistMember = findMemberByEmail(memberDTO.getEmail());
         if(isExistMember != null) {
             // 이미 이메일이 존재
             throw new RegisterFailException();
         }
-        sqlSession.insert("memberTable.insertMember", memberDTO);
+        sqlSession.insert("memberTable.insertMemberByEmail", memberDTO);
     }
 
     @Override
-    public MemberDTO findMember(String email) {
-        MemberDTO member = sqlSession.selectOne("memberTable.searchMember", email);
+    public MemberDTO findMemberByEmail(String email) {
+        MemberDTO member = sqlSession.selectOne("memberTable.searchMemberByEmail", email);
         return member;
     }
 
     @Override
-    public MemberDTO validMember(MemberDTO memberDTO) {
-        return sqlSession.selectOne("memberTable.validMember", memberDTO);
+    public MemberDTO validMemberByEmail(MemberDTO memberDTO) {
+        return sqlSession.selectOne("memberTable.validMemberByEmail", memberDTO);
     }
 
     @Override
-    public void updateRefreshToken(String email, String token) {
+    public void updateRefreshToken(String idx, String token) {
         MemberDTO member = new MemberDTO();
-        member.setEmail(email);
+        member.setIdx(Integer.valueOf(idx));
         member.setRefreshToken(token);
         sqlSession.update("memberTable.updateRefreshToken", member);
     }

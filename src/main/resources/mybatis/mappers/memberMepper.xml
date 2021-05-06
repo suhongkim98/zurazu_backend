@@ -10,20 +10,20 @@
         <result column="grade" property="grade" />
         <result column="profile_image_url" property="profileImageUrl" />
     </resultMap>
-    <insert id="insertMember" parameterType="memberDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
+    <insert id="insertMemberByEmail" parameterType="memberDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
         INSERT INTO members_tb(email, password, salt, refresh_token)
         VALUES(#{email}, #{password}, #{salt}, #{refreshToken});
     </insert>
     <update id="updateRefreshToken" parameterType="memberDTO">
         UPDATE members_tb
         SET refresh_token = #{refreshToken}
-        WHERE email = #{email};
+        WHERE idx = #{idx};
     </update>
-    <select id="searchMember" resultMap="selectMemberMap">
+    <select id="searchMemberByEmail" resultMap="selectMemberMap">
         SELECT * FROM members_tb
         WHERE email = #{email};
     </select>
-    <select id="validMember" parameterType="memberDTO" resultMap="selectMemberMap">
+    <select id="validMemberByEmail" parameterType="memberDTO" resultMap="selectMemberMap">
         SELECT * FROM members_tb
         WHERE email = #{email} AND password = #{password};
     </select>

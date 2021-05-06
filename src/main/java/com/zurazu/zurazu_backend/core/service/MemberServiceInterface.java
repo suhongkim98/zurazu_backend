@@ -7,9 +7,9 @@ import com.zurazu.zurazu_backend.web.dto.RefreshTokenDTO;
 import java.util.Optional;
 
 public interface MemberServiceInterface {
-    void registerMember(MemberWebDTO memberWebDTO);
-    Optional<MemberDTO> loginMember(MemberWebDTO memberWebDTO);
+    void registerMemberByEmail(MemberWebDTO memberWebDTO);
+    Optional<MemberDTO> loginMemberByEmail(MemberWebDTO memberWebDTO);
     Optional<String> validMemberRefreshToken(RefreshTokenDTO refreshTokenDTO);
-    String createAccessToken(String email);
-    String createRefreshToken(String email);
+    String createAccessToken(String idx);
+    String createRefreshToken(String idx);
 }
