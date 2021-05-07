@@ -21,6 +21,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/upload") // s3업로드 테스트용 경로, 나중에 삭제하장
+                .excludePathPatterns("/deleteTest") // s3 테스트용 경로, 나중에 삭제하장
                 .excludePathPatterns(excludePatterns); // 경로지정하기
     }
 

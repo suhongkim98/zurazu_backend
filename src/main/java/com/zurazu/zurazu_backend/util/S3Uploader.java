@@ -1,7 +1,10 @@
 package com.zurazu.zurazu_backend.util;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +48,10 @@ public class S3Uploader {
         String uploadImageUrl = putS3(uploadFile, fileName);
         return uploadImageUrl;
     }
+    public void deleteFileFromS3(String key) {
+    	//key는 경로, 파일이름 풀로 ex) static/test.txt
+    	deleteFile(key);
+    }
 
     private String putS3(MultipartFile uploadFile, String fileName) {
     	ObjectMetadata metadata = new ObjectMetadata();
@@ -58,6 +65,17 @@ public class S3Uploader {
     		e.printStackTrace();
 		}
          return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
+    
+    private void deleteFile(String key) {
+    	DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, key);
+    	try {
+    		amazonS3Client.deleteObject(deleteObjectRequest);
+    	}catch(AmazonServiceException e) {
+    		e.printStackTrace();
+    	}catch (SdkClientException e) {
+    		e.printStackTrace();
+		}
     }
 
 }
