@@ -20,15 +20,11 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- MultipartFile을 전달 받고
- S3에 전달할 수 있도록 MultiPartFile을 File로 전환
- S3에 Multipartfile 타입은 전송이 안됩니다.
+ MultipartFile을 전달 받고 경로를 포함한 파일이름 변수를 만든다.
 
- 전환된 File을 S3에 public 읽기 권한으로 put
+ 메타데이터 생성 후 파일이름으로 S3에 public 읽기 권한으로 put
  외부에서 정적 파일을 읽을 수 있도록 하기 위함입니다.
 
- 로컬에 생성된 File 삭제
- Multipartfile -> File로 전환되면서 로컬에 파일 생성된것을 삭제합니다.
  업로드된 파일의 S3 URL 주소를 반환
  */
 
