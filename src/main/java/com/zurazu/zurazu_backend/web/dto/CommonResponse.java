@@ -12,5 +12,5 @@ public class CommonResponse {
     // restcontroller 응답에 사용되는 dto객체
     private HttpStatus status;
     private String message;
-    private Object data;
+    private Object list;
 }

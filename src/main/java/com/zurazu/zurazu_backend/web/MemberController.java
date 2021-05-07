@@ -30,7 +30,7 @@ public class MemberController {
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
                 .message("등록 성공")
-                .data(null)
+                .list(null)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -46,7 +46,7 @@ public class MemberController {
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
                 .message("로그인 성공")
-                .data(map)
+                .list(map)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -62,7 +62,7 @@ public class MemberController {
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
                 .message("검증 성공")
-                .data(map)
+                .list(map)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

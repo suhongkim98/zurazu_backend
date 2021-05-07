@@ -52,7 +52,7 @@ public class AdminController {
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
                 .message("로그인 성공")
-                .data(map)
+                .list(map)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -68,7 +68,7 @@ public class AdminController {
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
                 .message("검증 성공")
-                .data(map)
+                .list(map)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
