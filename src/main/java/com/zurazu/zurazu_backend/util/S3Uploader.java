@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  MultipartFile을 전달 받고 경로를 포함한 파일이름 변수를 만든다.
@@ -40,7 +41,10 @@ public class S3Uploader {
 
 
     public String upload(MultipartFile uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getOriginalFilename();
+    	String fileType = uploadFile.getOriginalFilename().substring(uploadFile.getOriginalFilename().lastIndexOf("."));
+		String randomName = UUID.randomUUID().toString() + fileType; // 파일 중복되지 않게 고유식별자 생성
+		
+        String fileName = dirName + "/" + randomName;
         String uploadImageUrl = putS3(uploadFile, fileName);
         return uploadImageUrl;
     }
