@@ -81,7 +81,7 @@ public class AdminService implements AdminServiceInterface {
     @Override
     public Optional<String> validAdminRefreshToken(RefreshTokenDTO refreshTokenDTO) {
         JwtAuthToken jwtAuthToken = jwtAuthTokenProvider.convertAuthToken(refreshTokenDTO.getRefreshToken());
-        if(!jwtAuthToken.validate()) {
+        if(!jwtAuthToken.validate() || !jwtAuthToken.getData().get("role").equals(Role.ADMIN.getCode())) {
             return Optional.empty();
         }
 

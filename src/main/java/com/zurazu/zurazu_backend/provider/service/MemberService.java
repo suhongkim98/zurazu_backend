@@ -81,7 +81,7 @@ public class MemberService implements MemberServiceInterface {
     @Override
     public Optional<String> validMemberRefreshToken(RefreshTokenDTO refreshTokenDTO) {
         JwtAuthToken jwtAuthToken = jwtAuthTokenProvider.convertAuthToken(refreshTokenDTO.getRefreshToken());
-        if(!jwtAuthToken.validate()) {
+        if(!jwtAuthToken.validate() || !jwtAuthToken.getData().get("role").equals(Role.USER.getCode())) {
             return Optional.empty();
         }
 
