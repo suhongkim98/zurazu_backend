@@ -4,14 +4,37 @@ import com.zurazu.zurazu_backend.exception.errors.AdminLevelFailedException;
 import com.zurazu.zurazu_backend.exception.errors.CustomJwtRuntimeException;
 import com.zurazu.zurazu_backend.exception.errors.LoginFailedException;
 import com.zurazu.zurazu_backend.exception.errors.RegisterFailException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
+	@ExceptionHandler(NoHandlerFoundException.class)
+    protected ResponseEntity<ErrorResponse> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        // 없는 경로로 요청 시
+        ErrorResponse response = ErrorResponse.builder()
+                .status(ErrorCode.NOT_FOUND_PATH.getStatus())
+                .message(ErrorCode.NOT_FOUND_PATH.getMessage())
+                .code(ErrorCode.NOT_FOUND_PATH.getCode())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        // GET POST 방식이 잘못된 경우
+        ErrorResponse response = ErrorResponse.builder()
+                .status(ErrorCode.METHOD_NOT_ALLOWED.getStatus())
+                .message(ErrorCode.METHOD_NOT_ALLOWED.getMessage())
+                .code(ErrorCode.METHOD_NOT_ALLOWED.getCode())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+	
+
     /**
      * Bean Validation에 실패했을 때, 에러메시지를 내보내기 위한 Exception Handler
      */
