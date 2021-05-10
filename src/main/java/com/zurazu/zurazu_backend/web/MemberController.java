@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -39,9 +42,12 @@ public class MemberController {
     public ResponseEntity<CommonResponse> loginMember(@Valid MemberWebDTO memberWebDTO) {
         MemberDTO member = memberService.loginMemberByEmail(memberWebDTO).orElseThrow(()->new LoginFailedException());
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("accessToken", member.getAccessToken());
-        map.put("refreshToken", member.getRefreshToken());
+        HashMap<String, Object> map = new HashMap<>();
+        List<Object> list;
+        list = Arrays.asList(member.getAccessToken(),"Not Null");
+        map.put("accessToken", list);
+        list = Arrays.asList(member.getRefreshToken(),"Not Null");
+        map.put("refreshToken", list);
 
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
@@ -56,8 +62,10 @@ public class MemberController {
         // refresh 토큰을 검증하고 맞다면 access token 발급
         String accessToken = memberService.validMemberRefreshToken(refreshTokenDTO).orElseThrow(()-> new CustomJwtRuntimeException());
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("accessToken", accessToken);
+        HashMap<String, Object> map = new HashMap<>();
+        List<Object> list;
+        list = Arrays.asList(accessToken,"Not Null");
+        map.put("accessToken", list);
 
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)

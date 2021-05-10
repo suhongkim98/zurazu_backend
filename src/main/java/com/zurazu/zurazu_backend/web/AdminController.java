@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,9 +48,13 @@ public class AdminController {
             throw new AdminLevelFailedException();
         }
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("accessToken", admin.getAccessToken());
-        map.put("refreshToken", admin.getRefreshToken());
+        HashMap<String, Object> map = new HashMap<>();
+        
+        List<Object> list;
+        list = Arrays.asList(admin.getAccessToken(),"Not Null");
+        map.put("accessToken", list);
+        list = Arrays.asList(admin.getRefreshToken(),"Not Null");
+        map.put("refreshToken", list);
 
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
@@ -62,8 +69,10 @@ public class AdminController {
         // refresh 토큰을 검증하고 맞다면 access token 발급
         String accessToken = adminService.validAdminRefreshToken(adminDTO).orElseThrow(()-> new CustomJwtRuntimeException());
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("accessToken", accessToken);
+        HashMap<String, Object> map = new HashMap<>();
+        List<Object> list;
+        list = Arrays.asList(accessToken,"Not Null");
+        map.put("accessToken", list);
 
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
