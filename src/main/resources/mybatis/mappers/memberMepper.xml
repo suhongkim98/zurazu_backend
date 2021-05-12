@@ -9,10 +9,11 @@
         <result column="refresh_token" property="refreshToken"/>
         <result column="grade" property="grade" />
         <result column="url" property="profileImageUrl" />
+        <result column="personal_info_idx" property="personalInfoIdx"/>
     </resultMap>
     <insert id="insertMemberByEmail" parameterType="memberDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
-        INSERT INTO members_tb(email, password, salt, refresh_token)
-        VALUES(#{email}, #{password}, #{salt}, #{refreshToken});
+        INSERT INTO members_tb(email, password, salt, refresh_token, personal_info_idx)
+        VALUES(#{email}, #{password}, #{salt}, #{refreshToken}, #{personalInfoIdx});
     </insert>
     <update id="updateRefreshToken" parameterType="memberDTO">
         UPDATE members_tb

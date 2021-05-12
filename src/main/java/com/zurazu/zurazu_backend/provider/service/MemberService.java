@@ -2,13 +2,16 @@ package com.zurazu.zurazu_backend.provider.service;
 
 import com.zurazu.zurazu_backend.core.security.Role.Role;
 import com.zurazu.zurazu_backend.core.service.MemberServiceInterface;
+import com.zurazu.zurazu_backend.exception.errors.RegisterFailException;
 import com.zurazu.zurazu_backend.provider.dto.MemberDTO;
+import com.zurazu.zurazu_backend.provider.dto.PersonalInfoDTO;
 import com.zurazu.zurazu_backend.provider.repository.MemberDAO;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthToken;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthTokenProvider;
 import com.zurazu.zurazu_backend.util.SHA256Util;
 import com.zurazu.zurazu_backend.web.dto.MemberWebDTO;
 import com.zurazu.zurazu_backend.web.dto.RefreshTokenDTO;
+import com.zurazu.zurazu_backend.web.dto.RegisterMemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +27,34 @@ public class MemberService implements MemberServiceInterface {
     private final JwtAuthTokenProvider jwtAuthTokenProvider;
 
     @Override
-    public void registerMemberByEmail(MemberWebDTO memberWebDTO) {
+    public void registerMemberByEmail(RegisterMemberDTO registerMemberDTO) {
+        MemberDTO isExistMember = memberDAO.findMemberByEmail(registerMemberDTO.getEmail());
+        if(isExistMember != null) {
+            // 이미 이메일이 존재
+            throw new RegisterFailException();
+        }
+        //개인정보 등록
+        PersonalInfoDTO personalInfoDTO = new PersonalInfoDTO();
+        personalInfoDTO.setRealName(registerMemberDTO.getRealName());
+        personalInfoDTO.setGender(registerMemberDTO.getGender());
+        personalInfoDTO.setBirth(registerMemberDTO.getBirth());
+        personalInfoDTO.setPhoneNumber(registerMemberDTO.getPhoneNumber());
+        personalInfoDTO.setAgreeTermsOfService(registerMemberDTO.getAgreeTermsOfService());
+        personalInfoDTO.setAgreeCollectionPersonalInfo(registerMemberDTO.getAgreeCollectionPersonalInfo());
+        personalInfoDTO.setAgreeReceiveEmail(registerMemberDTO.getAgreeReceiveEmail());
+        personalInfoDTO.setAgreePushNotification(registerMemberDTO.getAgreePushNotification());
+        personalInfoDTO.setAgreeReceiveSMS(registerMemberDTO.getAgreeReceiveSMS());
+        personalInfoDTO.setAgreeReceiveKAKAO(registerMemberDTO.getAgreeReceiveKAKAO());
+        personalInfoDTO.setAgreeUnderFourteen(registerMemberDTO.getAgreeUnderFourteen());
+
+        memberDAO.registerMemberPersonalInformation(personalInfoDTO);
+        //회원 등록
         String salt = SHA256Util.generateSalt(); // salt
-        String encryptedPassword = SHA256Util.getEncrypt(memberWebDTO.getPassword(), salt); // 암호화
+        String encryptedPassword = SHA256Util.getEncrypt(registerMemberDTO.getPassword(), salt); // 암호화
 
         MemberDTO member = new MemberDTO();
-        member.setEmail(memberWebDTO.getEmail());
+        member.setPersonalInfoIdx(personalInfoDTO.getIdx());
+        member.setEmail(registerMemberDTO.getEmail());
         member.setPassword(encryptedPassword);
         member.setSalt(salt);
 

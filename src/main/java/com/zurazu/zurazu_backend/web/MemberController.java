@@ -7,6 +7,7 @@ import com.zurazu.zurazu_backend.provider.service.MemberService;
 import com.zurazu.zurazu_backend.web.dto.CommonResponse;
 import com.zurazu.zurazu_backend.web.dto.MemberWebDTO;
 import com.zurazu.zurazu_backend.web.dto.RefreshTokenDTO;
+import com.zurazu.zurazu_backend.web.dto.RegisterMemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public ResponseEntity<CommonResponse> registerMember(@Valid MemberWebDTO memberWebDTO) {
+    public ResponseEntity<CommonResponse> registerMember(@Valid RegisterMemberDTO memberWebDTO) {
         memberService.registerMemberByEmail(memberWebDTO);
 
         CommonResponse response = CommonResponse.builder()

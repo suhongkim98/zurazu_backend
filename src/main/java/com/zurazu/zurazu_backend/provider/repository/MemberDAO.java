@@ -3,6 +3,7 @@ package com.zurazu.zurazu_backend.provider.repository;
 import com.zurazu.zurazu_backend.core.repository.MemberDAOInterface;
 import com.zurazu.zurazu_backend.exception.errors.RegisterFailException;
 import com.zurazu.zurazu_backend.provider.dto.MemberDTO;
+import com.zurazu.zurazu_backend.provider.dto.PersonalInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,12 +14,12 @@ public class MemberDAO implements MemberDAOInterface {
     private final SqlSessionTemplate sqlSession;
     @Override
     public void registerMemberByEmail(MemberDTO memberDTO) {
-        MemberDTO isExistMember = findMemberByEmail(memberDTO.getEmail());
-        if(isExistMember != null) {
-            // 이미 이메일이 존재
-            throw new RegisterFailException();
-        }
         sqlSession.insert("memberTable.insertMemberByEmail", memberDTO);
+    }
+
+    @Override
+    public void registerMemberPersonalInformation(PersonalInfoDTO personalInfoDTO) {
+        sqlSession.insert("personalInfoTable.insertPersonalInfo", personalInfoDTO);
     }
 
     @Override

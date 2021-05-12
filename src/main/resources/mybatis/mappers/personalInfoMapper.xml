@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="personalInfoTable">
+    <resultMap id="selectPersonalInfoMap" type="personalInfoDTO">
+        <id column="idx" property="idx" />
+        <result column="real_name" property="realName"/>
+        <result column="gender" property="gender"/>
+        <result column="birth" property="birth"/>
+        <result column="phone_number" property="phoneNumber" />
+        <result column="agree_terms_of_service" property="agreeTermsOfService"/>
+        <result column="agree_collection_personal_info" property="agreeCollectionPersonalInfo"/>
+        <result column="agree_push_notification" property="agreePushNotification" />
+        <result column="agree_receive_email" property="agreeReceiveEmail"/>
+        <result column="agree_receive_sms" property="agreeReceiveSMS"/>
+        <result column="agree_receive_kakao" property="agreeReceiveKAKAO" />
+        <result column="agree_under_fourteen" property="agreeUnderFourteen"/>
+    </resultMap>
+
+    <insert id="insertPersonalInfo" parameterType="personalInfoDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
+        INSERT INTO personal_information_tb(
+        real_name,
+        gender,
+        birth,
+        phone_number,
+        agree_terms_of_service,
+        agree_collection_personal_info,
+        agree_push_notification,
+        agree_receive_email,
+        agree_receive_sms,
+        agree_receive_kakao,
+        agree_under_fourteen)
+        VALUES(
+        #{realName},
+        #{gender},
+        #{birth},
+        #{phoneNumber},
+        #{agreeTermsOfService},
+        #{agreeCollectionPersonalInfo},
+        #{agreePushNotification},
+        #{agreeReceiveEmail},
+        #{agreeReceiveSMS},
+        #{agreeReceiveKAKAO},
+        #{agreeUnderFourteen}
+        );
+    </insert>
+</mapper>

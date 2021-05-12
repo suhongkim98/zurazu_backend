@@ -14,4 +14,5 @@ public class MemberDTO {
     private String salt;
     private String grade;
     private String profileImageUrl;
+    private int personalInfoIdx;
 }
