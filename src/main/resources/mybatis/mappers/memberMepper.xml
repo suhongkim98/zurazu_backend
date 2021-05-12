@@ -8,7 +8,7 @@
         <result column="salt" property="salt" />
         <result column="refresh_token" property="refreshToken"/>
         <result column="grade" property="grade" />
-        <result column="profile_image_url" property="profileImageUrl" />
+        <result column="url" property="profileImageUrl" />
     </resultMap>
     <insert id="insertMemberByEmail" parameterType="memberDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
         INSERT INTO members_tb(email, password, salt, refresh_token)
@@ -20,8 +20,9 @@
         WHERE idx = #{idx};
     </update>
     <select id="searchMemberByEmail" resultMap="selectMemberMap">
-        SELECT * FROM members_tb
-        WHERE email = #{email};
+        SELECT mtb.*, itb.url FROM members_tb mtb
+        LEFT JOIN images_tb itb ON mtb.profile_image_idx = itb.idx
+        WHERE mtb.email = #{email};
     </select>
     <select id="validMemberByEmail" parameterType="memberDTO" resultMap="selectMemberMap">
         SELECT * FROM members_tb
