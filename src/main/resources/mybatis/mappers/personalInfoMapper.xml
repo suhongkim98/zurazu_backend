@@ -28,7 +28,7 @@
         agree_receive_email,
         agree_receive_sms,
         agree_receive_kakao,
-        agree_under_fourteen)
+        agree_upper_fourteen)
         VALUES(
         #{realName},
         #{gender},
@@ -40,7 +40,7 @@
         #{agreeReceiveEmail},
         #{agreeReceiveSMS},
         #{agreeReceiveKAKAO},
-        #{agreeUnderFourteen}
+        #{agreeUpperFourteen}
         );
     </insert>
 </mapper>

@@ -18,5 +18,5 @@ public class PersonalInfoDTO {
     private boolean agreeReceiveEmail;
     private boolean agreeReceiveSMS;
     private boolean agreeReceiveKAKAO;
-    private boolean agreeUnderFourteen;
+    private boolean agreeUpperFourteen;
 }

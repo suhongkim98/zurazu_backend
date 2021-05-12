@@ -45,7 +45,7 @@ public class MemberService implements MemberServiceInterface {
         personalInfoDTO.setAgreePushNotification(registerMemberDTO.getAgreePushNotification());
         personalInfoDTO.setAgreeReceiveSMS(registerMemberDTO.getAgreeReceiveSMS());
         personalInfoDTO.setAgreeReceiveKAKAO(registerMemberDTO.getAgreeReceiveKAKAO());
-        personalInfoDTO.setAgreeUnderFourteen(registerMemberDTO.getAgreeUnderFourteen());
+        personalInfoDTO.setAgreeUpperFourteen(registerMemberDTO.getAgreeUpperFourteen());
 
         memberDAO.registerMemberPersonalInformation(personalInfoDTO);
         //회원 등록

@@ -28,5 +28,5 @@ public class RegisterMemberDTO {
     private Boolean agreeReceiveEmail = false;
     private Boolean agreeReceiveSMS = false;
     private Boolean agreeReceiveKAKAO = false;
-    private Boolean agreeUnderFourteen = false;
+    private Boolean agreeUpperFourteen = false;
 }
