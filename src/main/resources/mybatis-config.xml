@@ -5,5 +5,7 @@
     <typeAliases>
         <typeAlias alias="adminDTO" type="com.zurazu.zurazu_backend.provider.dto.AdminDTO"/>
         <typeAlias alias="memberDTO" type="com.zurazu.zurazu_backend.provider.dto.MemberDTO" />
+        <typeAlias alias="mainCategoryDTO" type="com.zurazu.zurazu_backend.provider.dto.MainCategoryDTO" />
+        <typeAlias alias="subCategoryDTO" type="com.zurazu.zurazu_backend.provider.dto.SubCategoryDTO" />
     </typeAliases>
 </configuration>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="categoryTable">
+    <resultMap id="mainCategoryMap" type="mainCategoryDTO">
+        <id column="idx" property="idx" />
+        <result column="name" property="name" />
+        <result column="priority" property="priority" />
+    </resultMap>
+    <resultMap id="subCategoryMap" type="subCategoryDTO">
+        <id column="idx" property="idx" />
+        <result column="main_category_idx" property="mainCategoryIdx"/>
+        <result column="name" property="name" />
+        <result column="priority" property="priority" />
+    </resultMap>
+
+    <select id="selectAllMainCategories" resultMap="mainCategoryMap" >
+        SELECT * FROM main_categories_tb
+        ORDER BY priority;
+    </select>
+    <select id="selectAllSubCategories" resultMap="subCategoryMap">
+        SELECT * FROM sub_categories_tb
+        ORDER BY priority;
+    </select>
+    <select id="selectSubCategories" resultMap="subCategoryMap" >
+        SELECT * FROM sub_categories_tb
+        WHERE main_category_idx = #{mainIdx}
+        ORDER BY priority;
+    </select>
+</mapper>

@@ -1,9 +1,6 @@
 package com.zurazu.zurazu_backend.exception;
 
-import com.zurazu.zurazu_backend.exception.errors.AdminLevelFailedException;
-import com.zurazu.zurazu_backend.exception.errors.CustomJwtRuntimeException;
-import com.zurazu.zurazu_backend.exception.errors.LoginFailedException;
-import com.zurazu.zurazu_backend.exception.errors.RegisterFailException;
+import com.zurazu.zurazu_backend.exception.errors.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -84,7 +81,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
     @ExceptionHandler(AdminLevelFailedException.class)
-    protected ResponseEntity<ErrorResponse> handleAdminLevelFailedExcetion(AdminLevelFailedException e) {
+    protected ResponseEntity<ErrorResponse> handleAdminLevelFailedException(AdminLevelFailedException e) {
 
         ErrorResponse response = ErrorResponse.builder()
                 .code(ErrorCode.ADMIN_LEVEL_FAILED.getCode())
@@ -92,6 +89,16 @@ public class GlobalExceptionHandler {
                 .status(ErrorCode.ADMIN_LEVEL_FAILED.getStatus())
                 .build();
 
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+    @ExceptionHandler(NotFoundCategoryException.class)
+    protected ResponseEntity<ErrorResponse> handleNotFoundCategoryException(NotFoundCategoryException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.NOT_FOUND_CATEGORY.getCode())
+                .message(ErrorCode.NOT_FOUND_CATEGORY.getMessage())
+                .status(ErrorCode.NOT_FOUND_CATEGORY.getStatus())
+                .build();
         return new ResponseEntity<>(response, response.getStatus());
     }
 }
