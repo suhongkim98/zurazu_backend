@@ -52,6 +52,10 @@
     <select id="selectAllProducts" resultMap="selectApplyProductMap">
         SELECT * FROM apply_sell_products_tb;
     </select>
+    <select id="selectAllMyProducts" resultMap="selectApplyProductMap">
+        SELECT * FROM apply_sell_products_tb
+        WHERE member_idx = #{idx};
+    </select>
     <select id="selectOneProduct" resultMap="selectApplyProductMap">
         SELECT * FROM apply_sell_products_tb
         WHERE idx = #{idx};
