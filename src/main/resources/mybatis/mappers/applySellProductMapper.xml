@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="applySellProductTable">
+    <resultMap id="selectApplyProductMap" type="applySellProductDTO">
+        <id column="idx" property="idx" />
+        <result column="member_idx" property="memberIdx"/>
+        <result column="category_idx" property="categoryIdx"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="price" property="price"/>
+        <result column="clothing_size" property="clothingSize"/>
+        <result column="clothing_status" property="clothingStatus"/>
+        <result column="gender" property="gender"/>
+        <result column="comments" property="comments"/>
+        <result column="create_date" property="date"/>
+    </resultMap>
+    <resultMap id="selectApplyProductImageMap" type="applySellProductImageDTO">
+        <id column="idx" property="idx"/>
+        <result column="apply_sell_product_idx" property="applySellProductIdx"/>
+        <result column="url" property="url"/>
+        <result column="tag" property="tag"/>
+    </resultMap>
+    <insert id="insertProduct" parameterType="applySellProductDTO">
+        INSERT INTO apply_sell_products_tb
+        ( member_idx,
+        category_idx,
+        brand_name,
+        price,
+        clothing_size,
+        clothing_status,
+        gender,
+        comments )
+        VALUES
+        ( #{memberIdx},
+        #{categoryIdx},
+        #{brandName},
+        #{price},
+        #{clothingSize},
+        #{clothingStatus},
+        #{gender},
+        #{comments} );
+    </insert>
+    <insert id="insertProductImages" parameterType="java.util.List"> <!-- 리스트로 받아 한번에 삽입 -->
+        INSERT INTO apply_sell_product_images_tb
+        ( apply_sell_product_idx,
+        url,
+        tag )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.applySellProductIdx}, #{item.url}, #{item.tag})
+        </foreach>
+    </insert>
+    <select id="selectAllProducts" resultMap="selectApplyProductMap">
+        SELECT * FROM apply_sell_products_tb;
+    </select>
+    <select id="selectOneProduct" resultMap="selectApplyProductMap">
+        SELECT * FROM apply_sell_products_tb
+        WHERE idx = #{idx};
+    </select>
+    <select id="selectAllImages" resultMap="selectApplyProductImageMap">
+        SELECT * FROM apply_sell_product_images_tb
+        WHERE apply_sell_product_idx = #{productIdx};
+    </select>
+</mapper>
