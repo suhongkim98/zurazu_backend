@@ -19,7 +19,7 @@
         <result column="url" property="url"/>
         <result column="tag" property="tag"/>
     </resultMap>
-    <insert id="insertProduct" parameterType="applySellProductDTO">
+    <insert id="insertProduct" parameterType="applySellProductDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
         INSERT INTO apply_sell_products_tb
         ( member_idx,
         category_idx,
@@ -39,7 +39,7 @@
         #{gender},
         #{comments} );
     </insert>
-    <insert id="insertProductImages" parameterType="java.util.List"> <!-- 리스트로 받아 한번에 삽입 -->
+    <insert id="insertProductImages" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx"> <!-- 리스트로 받아 한번에 삽입 -->
         INSERT INTO apply_sell_product_images_tb
         ( apply_sell_product_idx,
         url,
