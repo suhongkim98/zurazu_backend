@@ -9,6 +9,7 @@ import com.zurazu.zurazu_backend.provider.security.JwtAuthTokenProvider;
 import com.zurazu.zurazu_backend.provider.service.ApplySellProductService;
 import com.zurazu.zurazu_backend.web.dto.CommonResponse;
 import com.zurazu.zurazu_backend.web.dto.RegisterApplySellProductDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllLimitDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,12 +50,16 @@ public class ApplySellProductController {
     }
 
     @GetMapping("/member/applySellProduct") // 멤버 토큰이 필요한 작업
-    public ResponseEntity<CommonResponse> getAllMySellProduct(HttpServletRequest request){
+    public ResponseEntity<CommonResponse> getAllMySellProduct(HttpServletRequest request, @Valid SelectAllLimitDTO selectAllLimitDTO){
         // 토큰에서 idx
         String token = jwtAuthTokenProvider.resolveToken(request).orElseThrow(()->new CustomJwtRuntimeException());
         JwtAuthToken authToken = jwtAuthTokenProvider.convertAuthToken(token);
 
-        List<ApplySellProductDTO> products = applySellProductService.getAllMyProducts(Integer.parseInt((String)authToken.getData().get("id"))).orElseGet(()->null);
+        List<ApplySellProductDTO> products = applySellProductService.getAllMyProducts(
+                Integer.parseInt((String)authToken.getData().get("id")),
+                selectAllLimitDTO.getOffset(),
+                selectAllLimitDTO.getLimit()
+        ).orElseGet(()->null);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("products", products);
@@ -97,8 +102,11 @@ public class ApplySellProductController {
     }
 
     @GetMapping("/admin/applySellProduct") // 어드민 토큰이 필요한 작업
-    public ResponseEntity<CommonResponse> getAllSellProducts() {
-        List<ApplySellProductDTO> products = applySellProductService.getAllProducts().orElseGet(() -> null);
+    public ResponseEntity<CommonResponse> getAllSellProducts(@Valid SelectAllLimitDTO selectAllLimitDTO) {
+        List<ApplySellProductDTO> products = applySellProductService.getAllProducts(
+                selectAllLimitDTO.getOffset(),
+                selectAllLimitDTO.getLimit()
+        ).orElseGet(() -> null);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("products", products);

@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public interface ApplySellProductServiceInterface {
     void registerProduct(RegisterApplySellProductDTO registerApplySellProductDTO, Map<String, MultipartFile> fileMap, int idx);
-    Optional<List<ApplySellProductDTO>> getAllProducts();
-    Optional<List<ApplySellProductDTO>> getAllMyProducts(int idx);
+    Optional<List<ApplySellProductDTO>> getAllProducts(int offset, int limit);
+    Optional<List<ApplySellProductDTO>> getAllMyProducts(int idx, int offset, int limit);
     Optional<ApplySellProductDTO> getOneProduct(int idx);
     Optional<List<ApplySellProductImageDTO>> getAllProductImages(int productIdx);
 }

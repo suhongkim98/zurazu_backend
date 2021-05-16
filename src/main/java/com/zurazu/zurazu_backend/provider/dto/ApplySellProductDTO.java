@@ -17,4 +17,7 @@ public class ApplySellProductDTO {
     private GenderType gender;
     private String comments;
     private Date date;
+
+    private int offset; // select 시 offset
+    private int limit; // select 시 offset
 }

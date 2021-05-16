@@ -8,8 +8,8 @@ import java.util.List;
 public interface ApplySellProductDAOInterface {
     void registerProduct(ApplySellProductDTO applySellProductDTO);
     void registerProductImages(List<ApplySellProductImageDTO> list);
-    List<ApplySellProductDTO> getAllProducts();
-    List<ApplySellProductDTO> getAllMyProducts(int idx);
+    List<ApplySellProductDTO> getAllProducts(int offset, int limit);
+    List<ApplySellProductDTO> getAllMyProducts(int idx, int offset, int limit);
     ApplySellProductDTO getOneProduct(int idx);
     List<ApplySellProductImageDTO> getAllProductImages(int productIdx);
 }

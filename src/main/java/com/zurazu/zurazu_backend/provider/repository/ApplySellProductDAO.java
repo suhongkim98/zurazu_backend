@@ -25,13 +25,20 @@ public class ApplySellProductDAO implements ApplySellProductDAOInterface {
     }
 
     @Override
-    public List<ApplySellProductDTO> getAllProducts() {
-        return sqlSession.selectList("applySellProductTable.selectAllProducts");
+    public List<ApplySellProductDTO> getAllProducts(int offset, int limit) {
+        ApplySellProductDTO dto = new ApplySellProductDTO();
+        dto.setOffset(offset);
+        dto.setLimit(limit);
+        return sqlSession.selectList("applySellProductTable.selectAllProducts", dto);
     }
 
     @Override
-    public List<ApplySellProductDTO> getAllMyProducts(int idx) {
-        return sqlSession.selectList("applySellProductTable.selectAllMyProducts", idx);
+    public List<ApplySellProductDTO> getAllMyProducts(int idx, int offset, int limit) {
+        ApplySellProductDTO dto = new ApplySellProductDTO();
+        dto.setOffset(offset);
+        dto.setLimit(limit);
+        dto.setMemberIdx(idx);
+        return sqlSession.selectList("applySellProductTable.selectAllMyProducts", dto);
     }
 
     @Override

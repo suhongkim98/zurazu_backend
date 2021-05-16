@@ -55,14 +55,14 @@ public class ApplySellProductService implements ApplySellProductServiceInterface
     }
 
     @Override
-    public Optional<List<ApplySellProductDTO>> getAllProducts() {
+    public Optional<List<ApplySellProductDTO>> getAllProducts(int offset, int limit) {
         //이미 인터셉터에서 토큰검증이 되었다.
-        return Optional.ofNullable(applySellProductDAO.getAllProducts());
+        return Optional.ofNullable(applySellProductDAO.getAllProducts(offset, limit));
     }
 
     @Override
-    public Optional<List<ApplySellProductDTO>> getAllMyProducts(int idx) {
-        return Optional.ofNullable(applySellProductDAO.getAllMyProducts(idx));
+    public Optional<List<ApplySellProductDTO>> getAllMyProducts(int idx, int offset, int limit) {
+        return Optional.ofNullable(applySellProductDAO.getAllMyProducts(idx, offset, limit));
     }
 
     @Override
