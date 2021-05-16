@@ -43,6 +43,7 @@ public class ApplySellProductService implements ApplySellProductServiceInterface
                     .forEach(file -> {
                         ApplySellProductImageDTO applySellProductImageDTO = new ApplySellProductImageDTO();
                         applySellProductImageDTO.setApplySellProductIdx(sellProductDTO.getIdx());
+                        applySellProductImageDTO.setTag(file.getKey()); // key를 태그로 지정해준다.
                         //s3에 파일 업로드
                         String s3UploadUrl = s3Uploader.upload(file.getValue(), "applySellProductImages");
                         applySellProductImageDTO.setUrl(s3UploadUrl);
