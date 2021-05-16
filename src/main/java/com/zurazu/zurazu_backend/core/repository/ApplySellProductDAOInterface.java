@@ -11,4 +11,5 @@ public interface ApplySellProductDAOInterface {
     List<ApplySellProductDTO> getAllProducts();
     List<ApplySellProductDTO> getAllMyProducts(int idx);
     ApplySellProductDTO getOneProduct(int idx);
+    List<ApplySellProductImageDTO> getAllProductImages(int productIdx);
 }

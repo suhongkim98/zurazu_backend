@@ -1,6 +1,7 @@
 package com.zurazu.zurazu_backend.core.service;
 
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
+import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
 import com.zurazu.zurazu_backend.web.dto.RegisterApplySellProductDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,4 +14,5 @@ public interface ApplySellProductServiceInterface {
     Optional<List<ApplySellProductDTO>> getAllProducts();
     Optional<List<ApplySellProductDTO>> getAllMyProducts(int idx);
     Optional<ApplySellProductDTO> getOneProduct(int idx);
+    Optional<List<ApplySellProductImageDTO>> getAllProductImages(int productIdx);
 }

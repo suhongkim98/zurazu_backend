@@ -9,6 +9,5 @@ public class ApplySellProductImageDTO {
     private int idx;
     private int applySellProductIdx;
     private String url;
-    private Date date;
     private String tag;
 }

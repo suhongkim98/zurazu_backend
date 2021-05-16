@@ -39,4 +39,9 @@ public class ApplySellProductDAO implements ApplySellProductDAOInterface {
         return sqlSession.selectOne("applySellProductTable.selectOneProduct", idx);
     }
 
+    @Override
+    public List<ApplySellProductImageDTO> getAllProductImages(int productIdx) {
+        return sqlSession.selectList("applySellProductTable.selectAllImages", productIdx);
+    }
+
 }

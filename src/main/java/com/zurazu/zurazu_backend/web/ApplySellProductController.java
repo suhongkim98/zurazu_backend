@@ -3,6 +3,7 @@ package com.zurazu.zurazu_backend.web;
 import com.zurazu.zurazu_backend.core.security.Role.Role;
 import com.zurazu.zurazu_backend.exception.errors.CustomJwtRuntimeException;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
+import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthToken;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthTokenProvider;
 import com.zurazu.zurazu_backend.provider.service.ApplySellProductService;
@@ -80,8 +81,13 @@ public class ApplySellProductController {
                 throw new CustomJwtRuntimeException();
             }
         }
+
+        List<ApplySellProductImageDTO> images = applySellProductService.getAllProductImages(productIdx).orElseGet(()->null);
+
         HashMap<String, Object> map = new HashMap<>();
         map.put("product", applySellProductDTO);
+        map.put("images", images);
+
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
                 .message("상품 조회 성공")

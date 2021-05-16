@@ -68,4 +68,9 @@ public class ApplySellProductService implements ApplySellProductServiceInterface
     public Optional<ApplySellProductDTO> getOneProduct(int idx) {
         return Optional.ofNullable(applySellProductDAO.getOneProduct(idx));
     }
+
+    @Override
+    public Optional<List<ApplySellProductImageDTO>> getAllProductImages(int productIdx) {
+        return Optional.ofNullable(applySellProductDAO.getAllProductImages(productIdx));
+    }
 }
