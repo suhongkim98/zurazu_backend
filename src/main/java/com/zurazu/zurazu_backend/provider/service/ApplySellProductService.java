@@ -51,7 +51,9 @@ public class ApplySellProductService implements ApplySellProductServiceInterface
                         list.add(applySellProductImageDTO);
                     });
         }
-        applySellProductDAO.registerProductImages(list);
+        if(list.size() > 0) {
+            applySellProductDAO.registerProductImages(list);
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.provider.dto;
 
+import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.core.enumtype.GenderType;
 import lombok.Data;
 
@@ -17,4 +18,7 @@ public class ApplySellProductDTO {
     private GenderType gender;
     private String comments;
     private Date date;
+    private ApplySellStatusType saleStatus;
+    private String orderNumber;
+    private Date lockerTime; // 보관함 시간
 }

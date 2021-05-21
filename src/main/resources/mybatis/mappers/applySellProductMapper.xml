@@ -12,6 +12,10 @@
         <result column="gender" property="gender"/>
         <result column="comments" property="comments"/>
         <result column="create_date" property="date"/>
+        <result column="sale_status" property="saleStatus"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="locker_time" property="lockerTime"/>
+
     </resultMap>
     <resultMap id="selectApplyProductImageMap" type="applySellProductImageDTO">
         <id column="idx" property="idx"/>
