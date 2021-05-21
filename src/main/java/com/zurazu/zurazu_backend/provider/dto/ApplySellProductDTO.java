@@ -1,6 +1,6 @@
 package com.zurazu.zurazu_backend.provider.dto;
 
-import com.zurazu.zurazu_backend.core.GenderType;
+import com.zurazu.zurazu_backend.core.enumtype.GenderType;
 import lombok.Data;
 
 import java.sql.Date;

@@ -1,4 +1,4 @@
-package com.zurazu.zurazu_backend.core;
+package com.zurazu.zurazu_backend.core.enumtype;
 
 
 public enum GenderType {
