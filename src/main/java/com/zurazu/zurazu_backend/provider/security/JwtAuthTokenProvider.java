@@ -14,7 +14,7 @@ import java.util.Optional;
 public class JwtAuthTokenProvider implements AuthTokenProvider<JwtAuthToken> {
 // 토큰 생성, 변환
     private final Key key;
-    private static final String AUTHORIZATION_HEADER = "x-auth-token";
+    private static final String AUTHORIZATION_HEADER = "Authentication";
 
     public JwtAuthTokenProvider(String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
