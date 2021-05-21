@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class SelectAllLimitDTO {
+    private int idx;
     @NotNull
     private Integer offset;
     @NotNull

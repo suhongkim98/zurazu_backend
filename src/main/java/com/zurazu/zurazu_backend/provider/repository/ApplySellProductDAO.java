@@ -3,6 +3,7 @@ package com.zurazu.zurazu_backend.provider.repository;
 import com.zurazu.zurazu_backend.core.repository.ApplySellProductDAOInterface;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllLimitDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -26,7 +27,7 @@ public class ApplySellProductDAO implements ApplySellProductDAOInterface {
 
     @Override
     public List<ApplySellProductDTO> getAllProducts(int offset, int limit) {
-        ApplySellProductDTO dto = new ApplySellProductDTO();
+        SelectAllLimitDTO dto = new SelectAllLimitDTO();
         dto.setOffset(offset);
         dto.setLimit(limit);
         return sqlSession.selectList("applySellProductTable.selectAllProducts", dto);
@@ -34,10 +35,10 @@ public class ApplySellProductDAO implements ApplySellProductDAOInterface {
 
     @Override
     public List<ApplySellProductDTO> getAllMyProducts(int idx, int offset, int limit) {
-        ApplySellProductDTO dto = new ApplySellProductDTO();
+        SelectAllLimitDTO dto = new SelectAllLimitDTO();
         dto.setOffset(offset);
         dto.setLimit(limit);
-        dto.setMemberIdx(idx);
+        dto.setIdx(idx);
         return sqlSession.selectList("applySellProductTable.selectAllMyProducts", dto);
     }
 

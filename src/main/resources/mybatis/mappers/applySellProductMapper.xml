@@ -49,12 +49,12 @@
             (#{item.applySellProductIdx}, #{item.url}, #{item.tag})
         </foreach>
     </insert>
-    <select id="selectAllProducts" resultMap="selectApplyProductMap" parameterType="applySellProductDTO">
+    <select id="selectAllProducts" resultMap="selectApplyProductMap" parameterType="selectAllLimitDTO">
         SELECT * FROM apply_sell_products_tb LIMIT #{limit} OFFSET #{offset};
     </select>
-    <select id="selectAllMyProducts" resultMap="selectApplyProductMap" parameterType="applySellProductDTO">
+    <select id="selectAllMyProducts" resultMap="selectApplyProductMap" parameterType="selectAllLimitDTO">
         SELECT * FROM apply_sell_products_tb
-        WHERE member_idx = #{memberIdx}
+        WHERE member_idx = #{idx}
         LIMIT #{limit} OFFSET #{offset};
     </select>
     <select id="selectOneProduct" resultMap="selectApplyProductMap">
