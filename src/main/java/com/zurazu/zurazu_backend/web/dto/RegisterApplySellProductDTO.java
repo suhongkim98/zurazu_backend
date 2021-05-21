@@ -14,7 +14,6 @@ import java.util.Map;
 public class RegisterApplySellProductDTO {
     @NotNull(message = "카테고리 인덱스가 필요합니다.")
     private Integer categoryIdx;
-    @NotEmpty(message = "브랜드 이름 입력이 필요합니다")
     private String brandName;
     @NotNull(message = "가격 입력이 필요합니다")
     private Integer price;
