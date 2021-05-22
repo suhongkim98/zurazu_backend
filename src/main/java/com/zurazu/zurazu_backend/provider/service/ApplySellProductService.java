@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.provider.service;
 
+import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.core.service.ApplySellProductServiceInterface;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
@@ -75,5 +76,10 @@ public class ApplySellProductService implements ApplySellProductServiceInterface
     @Override
     public Optional<List<ApplySellProductImageDTO>> getAllProductImages(int productIdx) {
         return Optional.ofNullable(applySellProductDAO.getAllProductImages(productIdx));
+    }
+
+    @Override
+    public void updateProductSaleStatus(ApplySellStatusType type, int productIdx) {
+        applySellProductDAO.updateProductSaleStatus(type, productIdx);
     }
 }

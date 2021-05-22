@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.provider.repository;
 
+import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.core.repository.ApplySellProductDAOInterface;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
@@ -50,6 +51,14 @@ public class ApplySellProductDAO implements ApplySellProductDAOInterface {
     @Override
     public List<ApplySellProductImageDTO> getAllProductImages(int productIdx) {
         return sqlSession.selectList("applySellProductTable.selectAllImages", productIdx);
+    }
+
+    @Override
+    public void updateProductSaleStatus(ApplySellStatusType type, int productIdx) {
+        ApplySellProductDTO dto = new ApplySellProductDTO();
+        dto.setIdx(productIdx);
+        dto.setSaleStatus(type);
+        sqlSession.update("applySellProductTable.updateSaleStatus", dto);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.core.service;
 
+import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
 import com.zurazu.zurazu_backend.web.dto.RegisterApplySellProductDTO;
@@ -15,4 +16,5 @@ public interface ApplySellProductServiceInterface {
     Optional<List<ApplySellProductDTO>> getAllMyProducts(int idx, int offset, int limit);
     Optional<ApplySellProductDTO> getOneProduct(int idx);
     Optional<List<ApplySellProductImageDTO>> getAllProductImages(int productIdx);
+    void updateProductSaleStatus(ApplySellStatusType type, int productIdx);
 }

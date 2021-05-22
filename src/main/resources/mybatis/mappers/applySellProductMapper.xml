@@ -69,4 +69,12 @@
         SELECT * FROM apply_sell_product_images_tb
         WHERE apply_sell_product_idx = #{productIdx};
     </select>
+    <update id="updateSaleStatus" parameterType="applySellProductDTO">
+        UPDATE apply_sell_products_tb
+        SET sale_status = #{saleStatus}
+        <if test='saleStatus != null and saleStatus.toString() == "AGREE"'>
+            , locker_time = DATE_ADD(now(), INTERVAL 10 DAY)
+        </if>
+        WHERE idx = #{idx};
+    </update>
 </mapper>

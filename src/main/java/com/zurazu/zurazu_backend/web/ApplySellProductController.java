@@ -1,7 +1,9 @@
 package com.zurazu.zurazu_backend.web;
 
+import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.core.security.Role.Role;
 import com.zurazu.zurazu_backend.exception.errors.CustomJwtRuntimeException;
+import com.zurazu.zurazu_backend.exception.errors.NotFoundTypeException;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthToken;
@@ -115,6 +117,19 @@ public class ApplySellProductController {
                 .status(HttpStatus.OK)
                 .message("상품 조회 성공")
                 .list(map)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @PostMapping("/admin/applySellProduct/update/saleStatus")
+    public ResponseEntity<CommonResponse> updateStatus(ApplySellStatusType type, int productIdx){
+        if(type == null) {
+            throw new NotFoundTypeException();
+        }
+        applySellProductService.updateProductSaleStatus(type, productIdx);
+
+        CommonResponse response = CommonResponse.builder()
+                .status(HttpStatus.OK)
+                .message("상품 업데이트 성공")
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

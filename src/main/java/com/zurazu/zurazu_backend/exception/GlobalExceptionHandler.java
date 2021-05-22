@@ -101,4 +101,14 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, response.getStatus());
     }
+    @ExceptionHandler(NotFoundTypeException.class)
+    protected ResponseEntity<ErrorResponse> handleNotFoundTypeException(NotFoundTypeException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.NOT_FOUND_TYPE.getCode())
+                .message(ErrorCode.NOT_FOUND_TYPE.getMessage())
+                .status(ErrorCode.NOT_FOUND_TYPE.getStatus())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
 }

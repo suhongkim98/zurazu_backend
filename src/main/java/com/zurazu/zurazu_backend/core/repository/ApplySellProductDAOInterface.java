@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.core.repository;
 
+import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
 
@@ -12,4 +13,5 @@ public interface ApplySellProductDAOInterface {
     List<ApplySellProductDTO> getAllMyProducts(int idx, int offset, int limit);
     ApplySellProductDTO getOneProduct(int idx);
     List<ApplySellProductImageDTO> getAllProductImages(int productIdx);
+    void updateProductSaleStatus(ApplySellStatusType type, int productIdx);
 }
