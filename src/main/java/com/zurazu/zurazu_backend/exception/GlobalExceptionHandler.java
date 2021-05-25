@@ -111,4 +111,26 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, response.getStatus());
     }
+
+    @ExceptionHandler(NotFoundColorChipException.class)
+    protected ResponseEntity<ErrorResponse> handleNotFoundColorChipException(NotFoundColorChipException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.NOT_FOUND_COLOR_CHIP.getCode())
+                .message(ErrorCode.NOT_FOUND_COLOR_CHIP.getMessage())
+                .status(ErrorCode.NOT_FOUND_COLOR_CHIP.getStatus())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler(NotFoundProductException.class)
+    protected ResponseEntity<ErrorResponse> handleNotFoundProductException(NotFoundProductException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.NOT_FOUND_PRODUCT.getCode())
+                .message(ErrorCode.NOT_FOUND_PRODUCT.getMessage())
+                .status(ErrorCode.NOT_FOUND_PRODUCT.getStatus())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
 }

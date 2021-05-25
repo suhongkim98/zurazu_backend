@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="registerProductTable">
+
+    <insert id="insertProduct" parameterType="requestRegisterProductDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
+        INSERT INTO register_products_tb
+        (
+        sub_category_idx,
+        apply_sell_product_idx,
+        name,
+        brand,
+        price,
+        material,
+        clothing_status,
+        inspection_status,
+        clothing_size,
+        info_comment,
+        laundry_comment,
+        search_keyword
+        )
+        VALUES
+        (
+        #{subCategoryIdx},
+        #{applySellProductIdx},
+        #{name},
+        #{brand},
+        #{price},
+        #{material},
+        #{clothingStatus},
+        #{inspectionStatus},
+        #{clothingSize},
+        #{infoComment},
+        #{laundryComment},
+        #{searchKeyword}
+        );
+    </insert>
+    <insert id="insertColorChip" parameterType="colorChipDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
+        INSERT INTO color_chips_tb
+        (
+        color_text,
+        url,
+        register_product_idx
+        )
+        VALUES
+        (
+        #{colorText},
+        #{url},
+        #{registerProductIdx}
+        );
+    </insert>
+    <insert id="insertProductImages" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
+        INSERT INTO register_product_images_tb
+        (
+        register_product_idx,
+        url
+        )
+        VALUES
+        <foreach collection="list" item="product" separator=",">
+            (#{product.registerProductIdx}, #{product.url})
+        </foreach>
+    </insert>
+</mapper>
