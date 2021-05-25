@@ -3,13 +3,15 @@
 <mapper namespace="categoryTable">
     <resultMap id="mainCategoryMap" type="mainCategoryDTO">
         <id column="idx" property="idx" />
-        <result column="name" property="name" />
+        <result column="korean" property="korean" />
+        <result column="english" property="english"/>
         <result column="priority" property="priority" />
     </resultMap>
     <resultMap id="subCategoryMap" type="subCategoryDTO">
         <id column="idx" property="idx" />
         <result column="main_category_idx" property="mainCategoryIdx"/>
-        <result column="name" property="name" />
+        <result column="korean" property="korean" />
+        <result column="english" property="english" />
         <result column="priority" property="priority" />
     </resultMap>
 

@@ -6,6 +6,7 @@ import lombok.Data;
 public class SubCategoryDTO {
     private int idx;
     private int mainCategoryIdx;
-    private String name;
+    private String korean;
+    private String english;
     private int priority;
 }
