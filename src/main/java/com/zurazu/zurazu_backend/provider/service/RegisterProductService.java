@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.provider.service;
 
+import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.core.service.RegisterProductServiceInterface;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundColorChipException;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundProductException;
@@ -42,6 +43,8 @@ public class RegisterProductService implements RegisterProductServiceInterface {
 
         //판매 등록
         registerProductDAO.registerProduct(requestRegisterProductDTO);
+        //신청 판매상품 상태 REGISTERED 로 변경
+        applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.REGISTERED, requestRegisterProductDTO.getApplySellProductIdx());
 
         //컬러칩 삽입 후 경로 반환
         String colorUrl = s3Uploader.upload(colorChipFile, "colorChipImages");
