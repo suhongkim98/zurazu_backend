@@ -37,7 +37,10 @@ public class RegisterProductService implements RegisterProductServiceInterface {
         if(colorChipFile == null) {
             //컬러칩이 없다.
             throw new NotFoundColorChipException();
-        };
+        } else {
+            fileMap.remove("colorChipImage"); // 꺼냈으니 리스트에서는 삭제
+        }
+        
         if(applySellProductDAO.getOneProduct(requestRegisterProductDTO.getApplySellProductIdx()) == null) {
             //판매 신청된 아이템이 없다
             throw new NotFoundProductException();
