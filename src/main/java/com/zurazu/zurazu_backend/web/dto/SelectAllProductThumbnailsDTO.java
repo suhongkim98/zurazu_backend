@@ -13,4 +13,5 @@ public class SelectAllProductThumbnailsDTO {
     @NotNull
     private Integer mainCategoryIdx;
     private Integer subCategoryIdx;
+    private Boolean notOnlySelectProgressing;
 }

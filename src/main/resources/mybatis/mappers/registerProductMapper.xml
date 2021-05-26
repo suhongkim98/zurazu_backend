@@ -111,6 +111,9 @@
         <if test='subCategoryIdx != null'>
             AND sct.idx = #{subCategoryIdx}
         </if>
+        <if test="notOnlySelectProgressing == null">
+            AND p.sale_status = 'PROGRESSING'
+        </if>
         GROUP BY p.idx                              <!-- 상품idx로 그룹화한다 -->
         HAVING i.idx = MIN(imgIdx)<!-- 그룹 안에서 가장 최근에 생성된 이미지 한 개만 가져온다 -->
         LIMIT #{limit} OFFSET #{offset}
