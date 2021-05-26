@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="registerProductTable">
+    <resultMap id="productThumbnailMap" type="productThumbnailDTO">
+        <result column="idx" property="productIdx"/>
+        <result column="brand" property="brand"/>
+        <result column="name" property="name"/>
+        <collection property="image" resultMap="imageInProductThumbnailMap"/>
+    </resultMap>
+    <resultMap id="imageInProductThumbnailMap" type="registerProductImageDTO">
+        <result column="imgIdx" property="idx"/>
+        <result column="idx" property="registerProductIdx"/>
+        <result column="url" property="url"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
 
     <insert id="insertProduct" parameterType="requestRegisterProductDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
         INSERT INTO register_products_tb
@@ -59,4 +71,17 @@
             (#{product.registerProductIdx}, #{product.url})
         </foreach>
     </insert>
+    <select id="selectAllProductThumbnailsInCategory" resultMap="productThumbnailMap" parameterType="selectAllProductThumbnailsDTO">
+        SELECT p.idx, p.name, p.brand, i.url, i.idx AS imgIdx, i.create_date FROM register_products_tb AS p
+        LEFT JOIN register_product_images_tb AS i ON p.idx = i.register_product_idx
+        INNER JOIN sub_categories_tb AS sct ON sct.idx = p.sub_category_idx
+        INNER JOIN main_categories_tb AS mct ON mct.idx = sct.main_category_idx
+        WHERE mct.idx = #{mainCategoryIdx}
+        <if test='subCategoryIdx != null'>
+            AND sct.idx = #{subCategoryIdx}
+        </if>
+        GROUP BY p.idx                              <!-- 상품idx로 그룹화한다 -->
+        HAVING i.idx = MIN(imgIdx)<!-- 그룹 안에서 가장 최근에 생성된 이미지 한 개만 가져온다 -->
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
 </mapper>

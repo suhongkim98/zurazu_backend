@@ -1,10 +1,11 @@
 package com.zurazu.zurazu_backend.web;
 
+import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.service.RegisterProductService;
 import com.zurazu.zurazu_backend.web.dto.CommonResponse;
 import com.zurazu.zurazu_backend.web.dto.RequestRegisterProductDTO;
-import com.zurazu.zurazu_backend.web.dto.SelectAllLimitDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllProductThumbnailsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +41,10 @@ public class RegisterProductController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/product")
-    ResponseEntity<CommonResponse> selectAllProduct(@Valid SelectAllLimitDTO selectAllLimitDTO) {
-        List<RegisterProductDTO> list = registerProductService.selectAllRegisterProducts
-                (selectAllLimitDTO.getOffset(), selectAllLimitDTO.getLimit())
-                .orElseGet(()->null);
+    @GetMapping("/product")
+    ResponseEntity<CommonResponse> selectAllProduct(@Valid SelectAllProductThumbnailsDTO selectAllProductThumbnailsDTO) {
+        List<ProductThumbnailDTO> list = registerProductService.selectAllRegisterProductThumbnails
+                (selectAllProductThumbnailsDTO).orElseGet(()->null);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("products", list);
@@ -56,7 +56,7 @@ public class RegisterProductController {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @GetMapping("/admin/product/{productIdx}")
+    @GetMapping("/product/{productIdx}")
     ResponseEntity<CommonResponse> selectOneProduct(@PathVariable int productIdx) {
         RegisterProductDTO product = registerProductService.selectOneRegisterProduct(productIdx).orElseGet(()->null);
 

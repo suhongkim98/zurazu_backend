@@ -5,6 +5,7 @@ import com.zurazu.zurazu_backend.core.service.RegisterProductServiceInterface;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundColorChipException;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundProductException;
 import com.zurazu.zurazu_backend.provider.dto.ColorChipDTO;
+import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO;
 import com.zurazu.zurazu_backend.provider.repository.ApplySellProductDAO;
@@ -12,6 +13,7 @@ import com.zurazu.zurazu_backend.provider.repository.CategoryDAO;
 import com.zurazu.zurazu_backend.provider.repository.RegisterProductDAO;
 import com.zurazu.zurazu_backend.util.S3Uploader;
 import com.zurazu.zurazu_backend.web.dto.RequestRegisterProductDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllProductThumbnailsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,8 +78,8 @@ public class RegisterProductService implements RegisterProductServiceInterface {
     }
 
     @Override
-    public Optional<List<RegisterProductDTO>> selectAllRegisterProducts(int offset, int limit) {
-        return Optional.empty();
+    public Optional<List<ProductThumbnailDTO>> selectAllRegisterProductThumbnails(SelectAllProductThumbnailsDTO selectAllProductThumbnailsDTO) {
+        return Optional.ofNullable(registerProductDAO.selectAllProductThumbnails(selectAllProductThumbnailsDTO));
     }
 
     @Override

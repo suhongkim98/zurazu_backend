@@ -2,9 +2,11 @@ package com.zurazu.zurazu_backend.provider.repository;
 
 import com.zurazu.zurazu_backend.core.repository.RegisterProductDAOInterface;
 import com.zurazu.zurazu_backend.provider.dto.ColorChipDTO;
+import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO;
 import com.zurazu.zurazu_backend.web.dto.RequestRegisterProductDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllProductThumbnailsDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,10 +24,9 @@ public class RegisterProductDAO implements RegisterProductDAOInterface {
     }
 
     @Override
-    public List<RegisterProductDTO> selectAllRegisterProducts(int offset, int limit) {
-        return null;
+    public List<ProductThumbnailDTO> selectAllProductThumbnails(SelectAllProductThumbnailsDTO selectAllProductThumbnailsDTO) {
+        return sqlSession.selectList("registerProductTable.selectAllProductThumbnailsInCategory", selectAllProductThumbnailsDTO);
     }
-
     @Override
     public RegisterProductDTO selectOneRegisterProduct(int idx) {
         return null;

@@ -13,5 +13,8 @@
         <typeAlias alias="selectAllLimitDTO" type="com.zurazu.zurazu_backend.web.dto.SelectAllLimitDTO"/>
         <typeAlias alias="requestRegisterProductDTO" type="com.zurazu.zurazu_backend.web.dto.RequestRegisterProductDTO"/>
         <typeAlias alias="colorChipDTO" type="com.zurazu.zurazu_backend.provider.dto.ColorChipDTO"/>
+        <typeAlias alias="productThumbnailDTO" type="com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO"/>
+        <typeAlias alias="selectAllProductThumbnailsDTO" type="com.zurazu.zurazu_backend.web.dto.SelectAllProductThumbnailsDTO"/>
+        <typeAlias alias="registerProductImageDTO" type="com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO"/>
     </typeAliases>
 </configuration>
