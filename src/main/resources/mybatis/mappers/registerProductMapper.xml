@@ -13,6 +13,37 @@
         <result column="url" property="url"/>
         <result column="create_date" property="createDate"/>
     </resultMap>
+    <resultMap id="productMap" type="registerProductDTO">
+        <result column="idx" property="idx"/>
+        <result column="name" property="name"/>
+        <result column="apply_sell_product_idx" property="applySellProductIdx"/>
+        <result column="brand" property="brand"/>
+        <result column="price" property="price"/>
+        <result column="material" property="material"/>
+        <result column="clothing_status" property="clothingStatus"/>
+        <result column="inspection_status" property="inspectionStatus"/>
+        <result column="clothing_size" property="clothingSize"/>
+        <result column="info_comment" property="infoComment"/>
+        <result column="laundry_comment" property="laundryComment"/>
+        <result column="search_keyword" property="searchKeyword"/>
+        <result column="sale_status" property="saleStatus"/>
+        <result column="register_number" property="registerNumber"/>
+        <result column="create_date" property="createDate"/>
+        <collection property="colorChip" resultMap="colorInProductMap"/>
+        <collection property="subCategory" resultMap="subCategoryInProductMap"/>
+    </resultMap>
+    <resultMap id="colorInProductMap" type="colorChipDTO">
+        <result column="idx" property="registerProductIdx"/>
+        <result column="color_text" property="colorText"/>
+        <result column="color_url" property="url"/>
+    </resultMap>
+    <resultMap id="subCategoryInProductMap" type="subCategoryDTO">
+        <result column="category_idx" property="idx"/>
+        <result column="category_name" property="korean"/>
+    </resultMap>
+    <resultMap id="productImagesMap" type="registerProductImageDTO">
+        <result column="create_date" property="createDate"/>
+    </resultMap>
 
     <insert id="insertProduct" parameterType="requestRegisterProductDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
         INSERT INTO register_products_tb
@@ -83,5 +114,16 @@
         GROUP BY p.idx                              <!-- 상품idx로 그룹화한다 -->
         HAVING i.idx = MIN(imgIdx)<!-- 그룹 안에서 가장 최근에 생성된 이미지 한 개만 가져온다 -->
         LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <select id="selectOneProduct" resultMap="productMap">
+        SELECT p.*, cct.color_text, cct.url AS color_url, sct.idx AS category_idx, sct.korean AS category_name
+        FROM register_products_tb AS p
+        LEFT JOIN sub_categories_tb AS sct ON sct.idx = p.sub_category_idx
+        LEFT JOIN color_chips_tb AS cct ON cct.register_product_idx = p.idx
+        WHERE p.idx = #{idx}
+    </select>
+    <select id="getAllImages" resultMap="productImagesMap">
+        SELECT * FROM register_product_images_tb
+        WHERE register_product_idx = #{productIdx}
     </select>
 </mapper>

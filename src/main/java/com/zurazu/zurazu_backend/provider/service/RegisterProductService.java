@@ -84,6 +84,11 @@ public class RegisterProductService implements RegisterProductServiceInterface {
 
     @Override
     public Optional<RegisterProductDTO> selectOneRegisterProduct(int idx) {
-        return Optional.empty();
+        return Optional.ofNullable(registerProductDAO.selectOneRegisterProduct(idx));
+    }
+
+    @Override
+    public Optional<List<RegisterProductImageDTO>> getAllProductImages(int productIdx) {
+        return Optional.ofNullable(registerProductDAO.getAllImages(productIdx));
     }
 }

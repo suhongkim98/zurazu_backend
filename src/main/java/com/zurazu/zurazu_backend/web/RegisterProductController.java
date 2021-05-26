@@ -2,6 +2,7 @@ package com.zurazu.zurazu_backend.web;
 
 import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
+import com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO;
 import com.zurazu.zurazu_backend.provider.service.RegisterProductService;
 import com.zurazu.zurazu_backend.web.dto.CommonResponse;
 import com.zurazu.zurazu_backend.web.dto.RequestRegisterProductDTO;
@@ -59,9 +60,11 @@ public class RegisterProductController {
     @GetMapping("/product/{productIdx}")
     ResponseEntity<CommonResponse> selectOneProduct(@PathVariable int productIdx) {
         RegisterProductDTO product = registerProductService.selectOneRegisterProduct(productIdx).orElseGet(()->null);
+        List<RegisterProductImageDTO> images = registerProductService.getAllProductImages(productIdx).orElseGet(()->null);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("product", product);
+        map.put("images", images);
 
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)

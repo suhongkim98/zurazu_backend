@@ -29,7 +29,12 @@ public class RegisterProductDAO implements RegisterProductDAOInterface {
     }
     @Override
     public RegisterProductDTO selectOneRegisterProduct(int idx) {
-        return null;
+        return sqlSession.selectOne("registerProductTable.selectOneProduct", idx);
+    }
+
+    @Override
+    public List<RegisterProductImageDTO> getAllImages(int productIdx) {
+        return sqlSession.selectList("registerProductTable.getAllImages", productIdx);
     }
 
     @Override
