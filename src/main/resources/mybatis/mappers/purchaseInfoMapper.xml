@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="purchaseInfoTable">
+
+    <insert id="insertPurchaseInfo" parameterType="requestPurchaseDTO">
+        INSERT INTO purchase_info_tb
+        (
+        member_idx,
+        register_product_idx,
+        customer_name,
+        customer_phone,
+        customer_email,
+        purchase_price
+        )
+        VALUES
+        (
+        #{memberIdx},
+        #{registerProductIdx},
+        #{customerName},
+        #{customerPhone},
+        #{customerEmail},
+        #{purchasePrice}
+        )
+    </insert>
+</mapper>
