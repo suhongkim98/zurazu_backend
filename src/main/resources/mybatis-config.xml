@@ -18,5 +18,6 @@
         <typeAlias alias="registerProductImageDTO" type="com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO"/>
         <typeAlias alias="registerProductDTO" type="com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO"/>
         <typeAlias alias="requestPurchaseDTO" type="com.zurazu.zurazu_backend.web.dto.RequestPurchaseDTO"/>
+        <typeAlias alias="purchaseProductDTO" type="com.zurazu.zurazu_backend.provider.dto.PurchaseProductDTO"/>
     </typeAliases>
 </configuration>

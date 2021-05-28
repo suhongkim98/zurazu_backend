@@ -2,7 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="purchaseInfoTable">
 
-    <insert id="insertPurchaseInfo" parameterType="requestPurchaseDTO">
+    <resultMap id="purchaseProductMap" type="purchaseProductDTO">
+        <id column="idx" property="idx"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="confirm_purchase" property="confirmPurchase"/>
+        <result column="create_date" property="createDate"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="customer_email" property="customerEmail"/>
+        <result column="customer_phone" property="customerPhone"/>
+        <result column="purchase_price" property="purchasePrice"/>
+        <collection property="registerProduct" resultMap="registerProductInPurchaseProductMap"/>
+        <collection property="member" resultMap="memberInPurchaseProductMap"/>
+    </resultMap>
+
+    <resultMap id="registerProductInPurchaseProductMap" type="registerProductDTO">
+        <result column="register_product_idx" property="idx"/>
+        <result column="register_number" property="registerNumber"/>
+        <result column="sale_status" property="saleStatus"/>
+
+    </resultMap>
+    <resultMap id="memberInPurchaseProductMap" type="memberDTO">
+        <result column="member_email" property="email"/>
+    </resultMap>
+
+    <insert id="insertPurchaseInfo" parameterType="requestPurchaseDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
         INSERT INTO purchase_info_tb
         (
         member_idx,
@@ -22,4 +45,22 @@
         #{purchasePrice}
         )
     </insert>
+    <select id="selectAllPurchaseHistory" parameterType="com.zurazu.zurazu_backend.core.enumtype.SaleStatusType" resultMap="purchaseProductMap">
+        SELECT p.*, rp.idx AS register_product_idx, rp.register_number,rp.sale_status, m.email AS member_email
+        FROM purchase_info_tb AS p
+        JOIN register_products_tb AS rp ON rp.idx = p.register_product_idx
+        JOIN members_tb AS m ON m.idx = p.member_idx
+        <if test="type != null">
+            WHERE rp.sale_status = #{type}
+        </if>
+    </select>
+    <select id="selectAllMemberPurchaseHistory" resultMap="purchaseProductMap">
+        SELECT p.*, rp.idx AS register_product_idx, rp.register_number,rp.sale_status, m.email AS member_email
+        FROM purchase_info_tb AS p
+        JOIN register_products_tb AS rp ON rp.idx = p.register_product_idx
+        JOIN members_tb AS m ON m.idx = p.member_idx
+        <if test="type != null">
+            WHERE p.member_idx = #{memberIdx}
+        </if>
+    </select>
 </mapper>

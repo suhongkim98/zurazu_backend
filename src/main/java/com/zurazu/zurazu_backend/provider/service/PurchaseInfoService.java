@@ -3,12 +3,16 @@ package com.zurazu.zurazu_backend.provider.service;
 import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.service.PurchaseInfoServiceInterface;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundProductException;
+import com.zurazu.zurazu_backend.provider.dto.PurchaseProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.repository.PurchaseInfoDAO;
 import com.zurazu.zurazu_backend.provider.repository.RegisterProductDAO;
 import com.zurazu.zurazu_backend.web.dto.RequestPurchaseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -31,5 +35,20 @@ public class PurchaseInfoService implements PurchaseInfoServiceInterface {
         registerProductDAO.updateRegisterProductStatus(SaleStatusType.WAITING_DEPOSIT, registerProductDTO.getIdx());
 
         purchaseInfoDAO.registerPurchaseProductInfo(requestPurchaseDTO);
+    }
+
+    @Override
+    public Optional<List<PurchaseProductDTO>> selectAllPurchaseHistory() {
+        return Optional.ofNullable(purchaseInfoDAO.selectAllPurchaseHistory());
+    }
+
+    @Override
+    public Optional<List<PurchaseProductDTO>> selectAllPurchaseHistoryByType(SaleStatusType type) {
+        return Optional.ofNullable(purchaseInfoDAO.selectAllPurchaseHistoryByType(type));
+    }
+
+    @Override
+    public Optional<List<PurchaseProductDTO>> selectAllMemberPurchaseHistory(int memberIdx) {
+        return Optional.ofNullable(purchaseInfoDAO.selectAllMemberPurchaseHistory(memberIdx));
     }
 }
