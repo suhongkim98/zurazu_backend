@@ -13,6 +13,7 @@ public interface RegisterProductDAOInterface {
     void registerProduct(RequestRegisterProductDTO requestRegisterProductDTO);
     List<ProductThumbnailDTO> selectAllProductThumbnails(SelectAllProductThumbnailsDTO selectAllProductThumbnailsDTO);
     RegisterProductDTO selectOneRegisterProduct(int idx);
+    RegisterProductDTO selectOneRegisterProduct(String registerNumber);
     List<RegisterProductImageDTO> getAllImages(int productIdx);
     void registerColorChip(ColorChipDTO colorChipDTO);
     void insertProductImages(List<RegisterProductImageDTO> list);

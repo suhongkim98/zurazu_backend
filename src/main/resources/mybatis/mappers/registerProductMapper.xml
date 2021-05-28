@@ -125,6 +125,13 @@
         LEFT JOIN color_chips_tb AS cct ON cct.register_product_idx = p.idx
         WHERE p.idx = #{idx}
     </select>
+    <select id="selectOneProductByRegisterNumber" resultMap="productMap">
+        SELECT p.*, cct.color_text, cct.url AS color_url, sct.idx AS category_idx, sct.korean AS category_name
+        FROM register_products_tb AS p
+        LEFT JOIN sub_categories_tb AS sct ON sct.idx = p.sub_category_idx
+        LEFT JOIN color_chips_tb AS cct ON cct.register_product_idx = p.idx
+        WHERE p.register_number = #{registerNumber}
+    </select>
     <select id="getAllImages" resultMap="productImagesMap">
         SELECT * FROM register_product_images_tb
         WHERE register_product_idx = #{productIdx}

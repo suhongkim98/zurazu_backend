@@ -33,6 +33,11 @@ public class RegisterProductDAO implements RegisterProductDAOInterface {
     }
 
     @Override
+    public RegisterProductDTO selectOneRegisterProduct(String registerNumber) {
+        return sqlSession.selectOne("registerProductTable.selectOneProductByRegisterNumber", registerNumber);
+    }
+
+    @Override
     public List<RegisterProductImageDTO> getAllImages(int productIdx) {
         return sqlSession.selectList("registerProductTable.getAllImages", productIdx);
     }
