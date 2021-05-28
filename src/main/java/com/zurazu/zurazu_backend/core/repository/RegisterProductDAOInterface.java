@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.core.repository;
 
+import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.provider.dto.ColorChipDTO;
 import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
@@ -17,4 +18,5 @@ public interface RegisterProductDAOInterface {
     List<RegisterProductImageDTO> getAllImages(int productIdx);
     void registerColorChip(ColorChipDTO colorChipDTO);
     void insertProductImages(List<RegisterProductImageDTO> list);
+    void updateRegisterProductStatus(SaleStatusType type, int productIdx);
 }

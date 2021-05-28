@@ -1,6 +1,7 @@
 package com.zurazu.zurazu_backend.provider.service;
 
 import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
+import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.service.RegisterProductServiceInterface;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundColorChipException;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundProductException;
@@ -93,5 +94,10 @@ public class RegisterProductService implements RegisterProductServiceInterface {
     @Override
     public Optional<List<RegisterProductImageDTO>> getAllProductImages(int productIdx) {
         return Optional.ofNullable(registerProductDAO.getAllImages(productIdx));
+    }
+
+    @Override
+    public void updateRegisterProductStatus(SaleStatusType type, int productIdx) {
+        registerProductDAO.updateRegisterProductStatus(type, productIdx);
     }
 }

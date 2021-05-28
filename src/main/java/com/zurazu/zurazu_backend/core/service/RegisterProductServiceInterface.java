@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.core.service;
 
+import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO;
@@ -16,4 +17,5 @@ public interface RegisterProductServiceInterface {
     Optional<List<ProductThumbnailDTO>> selectAllRegisterProductThumbnails(SelectAllProductThumbnailsDTO selectAllProductThumbnailsDTO);
     Optional<RegisterProductDTO> selectOneRegisterProduct(int idx);
     Optional<List<RegisterProductImageDTO>> getAllProductImages(int productIdx);
+    void updateRegisterProductStatus(SaleStatusType type, int productIdx);
 }

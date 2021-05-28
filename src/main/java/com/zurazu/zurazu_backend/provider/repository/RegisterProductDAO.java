@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.provider.repository;
 
+import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.repository.RegisterProductDAOInterface;
 import com.zurazu.zurazu_backend.provider.dto.ColorChipDTO;
 import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
@@ -50,5 +51,13 @@ public class RegisterProductDAO implements RegisterProductDAOInterface {
     @Override
     public void insertProductImages(List<RegisterProductImageDTO> list) {
         sqlSession.insert("registerProductTable.insertProductImages", list);
+    }
+
+    @Override
+    public void updateRegisterProductStatus(SaleStatusType type, int productIdx) {
+        RegisterProductDTO dto = new RegisterProductDTO();
+        dto.setSaleStatus(type);
+        dto.setIdx(productIdx);
+        sqlSession.update("registerProductTable.updateProductStatus", dto);
     }
 }

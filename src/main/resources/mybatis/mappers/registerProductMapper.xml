@@ -136,4 +136,9 @@
         SELECT * FROM register_product_images_tb
         WHERE register_product_idx = #{productIdx}
     </select>
+    <update id="updateProductStatus" parameterType="registerProductDTO">
+        UPDATE register_products_tb
+        SET sale_status = #{saleStatus}
+        WHERE idx = #{idx}
+    </update>
 </mapper>
