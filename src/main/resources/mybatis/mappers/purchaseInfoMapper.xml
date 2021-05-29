@@ -25,7 +25,7 @@
         <result column="member_email" property="email"/>
     </resultMap>
 
-    <insert id="insertPurchaseInfo" parameterType="requestPurchaseDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
+    <insert id="insertPurchaseInfo" parameterType="requestPurchaseDTO">
         INSERT INTO purchase_info_tb
         (
         member_idx,
