@@ -53,7 +53,7 @@
         <if test="type != null">
             WHERE rp.sale_status = #{type}
         </if>
-        OFFSET #{offset} LIMIT #{limit}
+        LIMIT #{limit} OFFSET #{offset}
     </select>
     <select id="selectAllMemberPurchaseHistory" resultMap="purchaseProductMap" parameterType="selectAllPurchaseLimitDTO">
         SELECT p.*, rp.idx AS register_product_idx, rp.register_number,rp.sale_status, m.email AS member_email
@@ -62,6 +62,6 @@
         JOIN members_tb AS m ON m.idx = p.member_idx
         WHERE p.member_idx = #{memberIdx}
 
-        OFFSET #{offset} LIMIT #{limit}
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 </mapper>
