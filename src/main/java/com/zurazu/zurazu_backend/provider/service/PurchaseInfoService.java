@@ -8,6 +8,7 @@ import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.repository.PurchaseInfoDAO;
 import com.zurazu.zurazu_backend.provider.repository.RegisterProductDAO;
 import com.zurazu.zurazu_backend.web.dto.RequestPurchaseDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllPurchaseLimitDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,17 +39,17 @@ public class PurchaseInfoService implements PurchaseInfoServiceInterface {
     }
 
     @Override
-    public Optional<List<PurchaseProductDTO>> selectAllPurchaseHistory() {
-        return Optional.ofNullable(purchaseInfoDAO.selectAllPurchaseHistory());
+    public Optional<List<PurchaseProductDTO>> selectAllPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO) {
+        return Optional.ofNullable(purchaseInfoDAO.selectAllPurchaseHistory(selectAllPurchaseLimitDTO));
     }
 
     @Override
-    public Optional<List<PurchaseProductDTO>> selectAllPurchaseHistoryByType(SaleStatusType type) {
-        return Optional.ofNullable(purchaseInfoDAO.selectAllPurchaseHistoryByType(type));
+    public Optional<List<PurchaseProductDTO>> selectAllPurchaseHistoryByType(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO) {
+        return Optional.ofNullable(purchaseInfoDAO.selectAllPurchaseHistoryByType(selectAllPurchaseLimitDTO));
     }
 
     @Override
-    public Optional<List<PurchaseProductDTO>> selectAllMemberPurchaseHistory(int memberIdx) {
-        return Optional.ofNullable(purchaseInfoDAO.selectAllMemberPurchaseHistory(memberIdx));
+    public Optional<List<PurchaseProductDTO>> selectAllMemberPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO) {
+        return Optional.ofNullable(purchaseInfoDAO.selectAllMemberPurchaseHistory(selectAllPurchaseLimitDTO));
     }
 }

@@ -4,6 +4,7 @@ import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.repository.PurchaseInfoDAOInterface;
 import com.zurazu.zurazu_backend.provider.dto.PurchaseProductDTO;
 import com.zurazu.zurazu_backend.web.dto.RequestPurchaseDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllPurchaseLimitDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,17 +21,17 @@ public class PurchaseInfoDAO implements PurchaseInfoDAOInterface {
     }
 
     @Override
-    public List<PurchaseProductDTO> selectAllPurchaseHistory() {
-        return sqlSession.selectList("purchaseInfoTable.selectAllPurchaseHistory");
+    public List<PurchaseProductDTO> selectAllPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO) {
+        return sqlSession.selectList("purchaseInfoTable.selectAllPurchaseHistory", selectAllPurchaseLimitDTO);
     }
 
     @Override
-    public List<PurchaseProductDTO> selectAllPurchaseHistoryByType(SaleStatusType type) {
-        return sqlSession.selectList("purchaseInfoTable.selectAllPurchaseHistory", type);
+    public List<PurchaseProductDTO> selectAllPurchaseHistoryByType(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO) {
+        return sqlSession.selectList("purchaseInfoTable.selectAllPurchaseHistory", selectAllPurchaseLimitDTO);
     }
 
     @Override
-    public List<PurchaseProductDTO> selectAllMemberPurchaseHistory(int memberIdx) {
-        return sqlSession.selectList("purchaseInfoTable.selectAllMemberPurchaseHistory", memberIdx);
+    public List<PurchaseProductDTO> selectAllMemberPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO) {
+        return sqlSession.selectList("purchaseInfoTable.selectAllMemberPurchaseHistory", selectAllPurchaseLimitDTO);
     }
 }

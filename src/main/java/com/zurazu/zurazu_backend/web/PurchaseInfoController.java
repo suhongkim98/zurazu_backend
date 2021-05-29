@@ -8,6 +8,7 @@ import com.zurazu.zurazu_backend.provider.security.JwtAuthTokenProvider;
 import com.zurazu.zurazu_backend.provider.service.PurchaseInfoService;
 import com.zurazu.zurazu_backend.web.dto.CommonResponse;
 import com.zurazu.zurazu_backend.web.dto.RequestPurchaseDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllPurchaseLimitDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,12 +44,13 @@ public class PurchaseInfoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/member/purchase/history")
-    ResponseEntity<CommonResponse> memberPurchaseHistory(HttpServletRequest request){
+    ResponseEntity<CommonResponse> memberPurchaseHistory(HttpServletRequest request, @Valid SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO){
         String token = jwtAuthTokenProvider.resolveToken(request).orElseThrow(()->new CustomJwtRuntimeException());
         JwtAuthToken authToken = jwtAuthTokenProvider.convertAuthToken(token);
         int memberIdx = Integer.parseInt((String)authToken.getData().get("id"));
+        selectAllPurchaseLimitDTO.setMemberIdx(memberIdx);
 
-        List<PurchaseProductDTO> list = purchaseInfoService.selectAllMemberPurchaseHistory(memberIdx).orElseGet(()->null);
+        List<PurchaseProductDTO> list = purchaseInfoService.selectAllMemberPurchaseHistory(selectAllPurchaseLimitDTO).orElseGet(()->null);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("history", list);
@@ -62,8 +64,8 @@ public class PurchaseInfoController {
     }
 
     @GetMapping("/admin/purchase/history")
-    ResponseEntity<CommonResponse> purchaseHistory(){
-        List<PurchaseProductDTO> list = purchaseInfoService.selectAllPurchaseHistory().orElseGet(()->null);
+    ResponseEntity<CommonResponse> purchaseHistory(@Valid SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO){
+        List<PurchaseProductDTO> list = purchaseInfoService.selectAllPurchaseHistory(selectAllPurchaseLimitDTO).orElseGet(()->null);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("history", list);
@@ -77,8 +79,9 @@ public class PurchaseInfoController {
     }
 
     @GetMapping("/admin/purchase/history/{type}")
-    ResponseEntity<CommonResponse> purchaseHistory(@PathVariable SaleStatusType type){
-        List<PurchaseProductDTO> list = purchaseInfoService.selectAllPurchaseHistoryByType(type).orElseGet(()->null);
+    ResponseEntity<CommonResponse> purchaseHistory(@PathVariable SaleStatusType type, @Valid SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO){
+        selectAllPurchaseLimitDTO.setType(type);
+        List<PurchaseProductDTO> list = purchaseInfoService.selectAllPurchaseHistoryByType(selectAllPurchaseLimitDTO).orElseGet(()->null);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("history", list);

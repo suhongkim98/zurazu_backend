@@ -45,7 +45,7 @@
         #{purchasePrice}
         )
     </insert>
-    <select id="selectAllPurchaseHistory" parameterType="com.zurazu.zurazu_backend.core.enumtype.SaleStatusType" resultMap="purchaseProductMap">
+    <select id="selectAllPurchaseHistory" parameterType="selectAllPurchaseLimitDTO" resultMap="purchaseProductMap">
         SELECT p.*, rp.idx AS register_product_idx, rp.register_number,rp.sale_status, m.email AS member_email
         FROM purchase_info_tb AS p
         JOIN register_products_tb AS rp ON rp.idx = p.register_product_idx
@@ -53,14 +53,15 @@
         <if test="type != null">
             WHERE rp.sale_status = #{type}
         </if>
+        OFFSET #{offset} LIMIT #{limit}
     </select>
-    <select id="selectAllMemberPurchaseHistory" resultMap="purchaseProductMap">
+    <select id="selectAllMemberPurchaseHistory" resultMap="purchaseProductMap" parameterType="selectAllPurchaseLimitDTO">
         SELECT p.*, rp.idx AS register_product_idx, rp.register_number,rp.sale_status, m.email AS member_email
         FROM purchase_info_tb AS p
         JOIN register_products_tb AS rp ON rp.idx = p.register_product_idx
         JOIN members_tb AS m ON m.idx = p.member_idx
-        <if test="type != null">
-            WHERE p.member_idx = #{memberIdx}
-        </if>
+        WHERE p.member_idx = #{memberIdx}
+
+        OFFSET #{offset} LIMIT #{limit}
     </select>
 </mapper>
