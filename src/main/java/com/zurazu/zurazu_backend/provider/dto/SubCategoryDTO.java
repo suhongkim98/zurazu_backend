@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SubCategoryDTO {
     private int idx;
-    private int mainCategoryIdx;
+    private MainCategoryDTO mainCategory;
     private String korean;
     private String english;
     private int priority;

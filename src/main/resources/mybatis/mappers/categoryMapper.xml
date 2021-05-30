@@ -9,10 +9,16 @@
     </resultMap>
     <resultMap id="subCategoryMap" type="subCategoryDTO">
         <id column="idx" property="idx" />
-        <result column="main_category_idx" property="mainCategoryIdx"/>
         <result column="korean" property="korean" />
         <result column="english" property="english" />
         <result column="priority" property="priority" />
+        <collection property="mainCategory" resultMap="mainCategoryInSubCategoryMap"/>
+    </resultMap>
+
+    <resultMap id="mainCategoryInSubCategoryMap" type="mainCategoryDTO">
+        <result column="main_idx" property="idx"/>
+        <result column="main_korean" property="korean"/>
+        <result column="main_english" property="english"/>
     </resultMap>
 
     <select id="selectAllMainCategories" resultMap="mainCategoryMap" >
@@ -20,12 +26,16 @@
         ORDER BY priority;
     </select>
     <select id="selectAllSubCategories" resultMap="subCategoryMap">
-        SELECT * FROM sub_categories_tb
+        SELECT s.*, m.idx AS main_idx, m.korean AS main_korean, m.english AS main_english
+        FROM sub_categories_tb AS s
+        INNER JOIN main_categories_tb AS m ON m.idx = s.main_category_idx
         ORDER BY priority;
     </select>
     <select id="selectSubCategories" resultMap="subCategoryMap" >
-        SELECT * FROM sub_categories_tb
-        WHERE main_category_idx = #{mainIdx}
+        SELECT s.*, m.idx AS main_idx, m.korean AS main_korean, m.english AS main_english
+        FROM sub_categories_tb AS s
+        INNER JOIN main_categories_tb AS m ON m.idx = s.main_category_idx
+        WHERE s.main_category_idx = #{mainIdx}
         ORDER BY priority;
     </select>
 </mapper>
