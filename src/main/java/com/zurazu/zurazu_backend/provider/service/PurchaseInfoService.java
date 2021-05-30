@@ -2,6 +2,7 @@ package com.zurazu.zurazu_backend.provider.service;
 
 import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.service.PurchaseInfoServiceInterface;
+import com.zurazu.zurazu_backend.exception.errors.CustomJwtRuntimeException;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundProductException;
 import com.zurazu.zurazu_backend.provider.dto.PurchaseProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
@@ -51,5 +52,19 @@ public class PurchaseInfoService implements PurchaseInfoServiceInterface {
     @Override
     public Optional<List<PurchaseProductDTO>> selectAllMemberPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO) {
         return Optional.ofNullable(purchaseInfoDAO.selectAllMemberPurchaseHistory(selectAllPurchaseLimitDTO));
+    }
+
+    @Override
+    public void confirmPurchase(int memberIdx, String orderNumber) {
+        PurchaseProductDTO purchaseProductDTO = purchaseInfoDAO.selectOnePurchaseHistory(orderNumber);
+        if(purchaseProductDTO == null) {
+            throw new NotFoundProductException();
+        }
+        //맴버 검증
+        if(purchaseProductDTO.getMember().getIdx() != memberIdx) {
+            throw new CustomJwtRuntimeException(); // 다른 맴버의 구매내역 업데이트는 불가능하다.
+        }
+
+        purchaseInfoDAO.updateConfirmPurchase(orderNumber, true);
     }
 }

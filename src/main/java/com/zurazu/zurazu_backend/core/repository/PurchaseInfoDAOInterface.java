@@ -14,4 +14,6 @@ public interface PurchaseInfoDAOInterface {
     List<PurchaseProductDTO> selectAllPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO);
     List<PurchaseProductDTO> selectAllPurchaseHistoryByType(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO);
     List<PurchaseProductDTO> selectAllMemberPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO);
+    PurchaseProductDTO selectOnePurchaseHistory(String orderNumber);
+    void updateConfirmPurchase(String orderNumber, boolean isConfirm);
 }

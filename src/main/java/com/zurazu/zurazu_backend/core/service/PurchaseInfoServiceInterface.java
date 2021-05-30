@@ -13,4 +13,5 @@ public interface PurchaseInfoServiceInterface {
     Optional<List<PurchaseProductDTO>> selectAllPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO);
     Optional<List<PurchaseProductDTO>> selectAllPurchaseHistoryByType(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO);
     Optional<List<PurchaseProductDTO>> selectAllMemberPurchaseHistory(SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO);
+    void confirmPurchase(int memberIdx, String orderNumber);
 }

@@ -63,6 +63,20 @@ public class PurchaseInfoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/member/purchase/confirm") // 구매확정
+    ResponseEntity<CommonResponse> memberPurchaseConfirm(HttpServletRequest request, String orderNumber) {
+        String token = jwtAuthTokenProvider.resolveToken(request).orElseThrow(()->new CustomJwtRuntimeException());
+        JwtAuthToken authToken = jwtAuthTokenProvider.convertAuthToken(token);
+        int memberIdx = Integer.parseInt((String)authToken.getData().get("id"));
+        purchaseInfoService.confirmPurchase(memberIdx, orderNumber);
+
+        CommonResponse response = CommonResponse.builder()
+                .status(HttpStatus.OK)
+                .message("구매 확정 성공")
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/admin/purchase/history")
     ResponseEntity<CommonResponse> purchaseHistory(@Valid SelectAllPurchaseLimitDTO selectAllPurchaseLimitDTO){
         List<PurchaseProductDTO> list = purchaseInfoService.selectAllPurchaseHistory(selectAllPurchaseLimitDTO).orElseGet(()->null);
