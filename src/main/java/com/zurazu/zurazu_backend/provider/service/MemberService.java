@@ -9,6 +9,7 @@ import com.zurazu.zurazu_backend.provider.repository.MemberDAO;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthToken;
 import com.zurazu.zurazu_backend.provider.security.JwtAuthTokenProvider;
 import com.zurazu.zurazu_backend.util.SHA256Util;
+import com.zurazu.zurazu_backend.provider.dto.MemberProfileDTO;
 import com.zurazu.zurazu_backend.web.dto.MemberWebDTO;
 import com.zurazu.zurazu_backend.web.dto.RefreshTokenDTO;
 import com.zurazu.zurazu_backend.web.dto.RegisterMemberDTO;
@@ -129,5 +130,10 @@ public class MemberService implements MemberServiceInterface {
         Date expiredDate = Date.from(LocalDateTime.now().plusYears(1).atZone(ZoneId.systemDefault()).toInstant()); // refresh토큰은 유효기간이 1년
         JwtAuthToken refreshToken = jwtAuthTokenProvider.createAuthToken(idx, Role.USER.getCode(), expiredDate);  //토큰 발급
         return refreshToken.getToken();
+    }
+
+    @Override
+    public Optional<MemberProfileDTO> getProfileInfo(int memberIdx) {
+        return Optional.ofNullable(memberDAO.memberProfileInfo(memberIdx));
     }
 }

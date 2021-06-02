@@ -2,6 +2,7 @@ package com.zurazu.zurazu_backend.core.repository;
 
 import com.zurazu.zurazu_backend.provider.dto.MemberDTO;
 import com.zurazu.zurazu_backend.provider.dto.PersonalInfoDTO;
+import com.zurazu.zurazu_backend.provider.dto.MemberProfileDTO;
 
 public interface MemberDAOInterface {
     void registerMemberByEmail(MemberDTO memberDTO);
@@ -9,4 +10,5 @@ public interface MemberDAOInterface {
     MemberDTO findMemberByEmail(String email);
     MemberDTO validMemberByEmail(MemberDTO memberDTO); // 아이디 비밀번호 검증
     void updateRefreshToken(String idx, String token);
+    MemberProfileDTO memberProfileInfo(int memberIdx);
 }

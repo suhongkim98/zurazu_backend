@@ -11,6 +11,12 @@
         <result column="url" property="profileImageUrl" />
         <result column="personal_info_idx" property="personalInfoIdx"/>
     </resultMap>
+    <resultMap id="selectMemberProfileMap" type="memberProfileDTO">
+        <result column="real_name" property="name"/>
+        <result column="profile_url" property="profileUrl"/>
+        <result column="apply_count" property="applyCount"/>
+        <result column="purchase_count" property="purchaseCount"/>
+    </resultMap>
     <insert id="insertMemberByEmail" parameterType="memberDTO" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
         INSERT INTO members_tb(email, password, salt, refresh_token, personal_info_idx)
         VALUES(#{email}, #{password}, #{salt}, #{refreshToken}, #{personalInfoIdx});
@@ -28,5 +34,22 @@
     <select id="validMemberByEmail" parameterType="memberDTO" resultMap="selectMemberMap">
         SELECT * FROM members_tb
         WHERE email = #{email} AND password = #{password};
+    </select>
+    <select id="selectOneProfile" resultMap="selectMemberProfileMap">
+        SELECT pi.real_name, image_tb.url AS profile_url,
+
+        (SELECT COUNT(*)
+        FROM apply_sell_products_tb
+        WHERE sale_status = 'FINISH' AND member_idx = #{memberIdx}) AS apply_count,
+
+        (SELECT COUNT(*)
+        FROM purchase_info_tb
+        WHERE confirm_purchase = 1 AND member_idx = #{memberIdx}) AS purchase_count
+
+        FROM members_tb AS m
+        JOIN personal_information_tb AS pi ON pi.idx = m.personal_info_idx
+        LEFT JOIN profile_images_tb AS image_tb ON image_tb.idx = m.profile_image_idx
+        WHERE m.idx = #{memberIdx}
+
     </select>
 </mapper>
