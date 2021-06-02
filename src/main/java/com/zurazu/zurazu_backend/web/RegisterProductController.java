@@ -1,5 +1,6 @@
 package com.zurazu.zurazu_backend.web;
 
+import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO;
@@ -69,6 +70,20 @@ public class RegisterProductController {
         CommonResponse response = CommonResponse.builder()
                 .status(HttpStatus.OK)
                 .message("조회 성공")
+                .list(map)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/product/status/update")
+    ResponseEntity<CommonResponse> updateProductStatus(SaleStatusType type, int productIdx){
+        registerProductService.updateRegisterProductStatus(type, productIdx);
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        CommonResponse response = CommonResponse.builder()
+                .status(HttpStatus.OK)
+                .message("성공")
                 .list(map)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);

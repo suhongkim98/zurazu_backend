@@ -5,6 +5,7 @@ import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.service.RegisterProductServiceInterface;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundColorChipException;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundProductException;
+import com.zurazu.zurazu_backend.exception.errors.NotFoundTypeException;
 import com.zurazu.zurazu_backend.provider.dto.ColorChipDTO;
 import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
@@ -98,6 +99,23 @@ public class RegisterProductService implements RegisterProductServiceInterface {
 
     @Override
     public void updateRegisterProductStatus(SaleStatusType type, int productIdx) {
+        RegisterProductDTO registerProduct = selectOneRegisterProduct(productIdx).orElseGet(()->null);
+        if(registerProduct == null) {
+            throw new NotFoundProductException();
+        }
+        if(type == null) {
+            throw new NotFoundTypeException();
+        }
+        //새로 변경하고자 하는 타입이 무엇인지에 따라 신청상품 상태도 같이 변경
         registerProductDAO.updateRegisterProductStatus(type, productIdx);
+        if(type == SaleStatusType.DONE) {
+            applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.FINISH, registerProduct.getApplySellProductIdx());
+        }else if( type == SaleStatusType.PROGRESSING) {
+            applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.REGISTERED, registerProduct.getApplySellProductIdx());
+        } else if(type == SaleStatusType.FINISH_DEPOSIT) {
+            applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.REGISTERED, registerProduct.getApplySellProductIdx());
+        } else if(type == SaleStatusType.WAITING_DEPOSIT) {
+            applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.REGISTERED, registerProduct.getApplySellProductIdx());
+        }
     }
 }
