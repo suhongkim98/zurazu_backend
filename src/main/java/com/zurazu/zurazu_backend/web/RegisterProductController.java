@@ -74,7 +74,7 @@ public class RegisterProductController {
 
     @PostMapping("/admin/product/status/update")
     ResponseEntity<CommonResponse> updateProductStatus(@RequestBody Map<String, Object> params){
-        SaleStatusType type = (SaleStatusType)params.get("type");
+        SaleStatusType type = SaleStatusType.valueOf(params.get("type").toString());
         int productIdx = (int)params.get("productIdx");
         registerProductService.updateRegisterProductStatus(type, productIdx);
 
