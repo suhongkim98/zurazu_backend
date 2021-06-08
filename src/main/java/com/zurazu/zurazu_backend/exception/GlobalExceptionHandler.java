@@ -3,6 +3,7 @@ package com.zurazu.zurazu_backend.exception;
 import com.zurazu.zurazu_backend.exception.errors.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -31,7 +32,17 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, response.getStatus());
     }
-	
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    protected ResponseEntity<ErrorResponse> handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getCode())
+                .message(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage())
+                .status(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getStatus())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
 
     /**
      * Bean Validation에 실패했을 때, 에러메시지를 내보내기 위한 Exception Handler
@@ -135,14 +146,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
-    @ExceptionHandler(UnsupportedMediaTypeStatusException.class)
-    protected ResponseEntity<ErrorResponse> handleUnsupportedMediaTypeStatusException(UnsupportedMediaTypeStatusException e) {
-
-        ErrorResponse response = ErrorResponse.builder()
-                .code(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getCode())
-                .message(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage())
-                .status(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getStatus())
-                .build();
-        return new ResponseEntity<>(response, response.getStatus());
-    }
 }
