@@ -11,10 +11,7 @@ import com.zurazu.zurazu_backend.web.dto.SelectAllProductThumbnailsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -76,7 +73,9 @@ public class RegisterProductController {
     }
 
     @PostMapping("/admin/product/status/update")
-    ResponseEntity<CommonResponse> updateProductStatus(SaleStatusType type, int productIdx){
+    ResponseEntity<CommonResponse> updateProductStatus(@RequestBody Map<String, Object> params){
+        SaleStatusType type = (SaleStatusType)params.get("type");
+        int productIdx = (int)params.get("productIdx");
         registerProductService.updateRegisterProductStatus(type, productIdx);
 
         HashMap<String, Object> map = new HashMap<>();

@@ -12,10 +12,7 @@ import com.zurazu.zurazu_backend.web.dto.SelectAllPurchaseLimitDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,7 +26,7 @@ public class PurchaseInfoController {
     private final JwtAuthTokenProvider jwtAuthTokenProvider;
 
     @PostMapping("/member/product/purchase")
-    ResponseEntity<CommonResponse> purchaseProduct(@Valid RequestPurchaseDTO requestPurchaseDTO, HttpServletRequest request) {
+    ResponseEntity<CommonResponse> purchaseProduct(@RequestBody @Valid RequestPurchaseDTO requestPurchaseDTO, HttpServletRequest request) {
         String token = jwtAuthTokenProvider.resolveToken(request).orElseThrow(()->new CustomJwtRuntimeException());
         JwtAuthToken authToken = jwtAuthTokenProvider.convertAuthToken(token);
         int memberIdx = Integer.parseInt((String)authToken.getData().get("id"));
@@ -64,7 +61,7 @@ public class PurchaseInfoController {
     }
 
     @PostMapping("/member/purchase/confirm") // 구매확정
-    ResponseEntity<CommonResponse> memberPurchaseConfirm(HttpServletRequest request, String orderNumber) {
+    ResponseEntity<CommonResponse> memberPurchaseConfirm(HttpServletRequest request,@RequestBody String orderNumber) {
         String token = jwtAuthTokenProvider.resolveToken(request).orElseThrow(()->new CustomJwtRuntimeException());
         JwtAuthToken authToken = jwtAuthTokenProvider.convertAuthToken(token);
         int memberIdx = Integer.parseInt((String)authToken.getData().get("id"));

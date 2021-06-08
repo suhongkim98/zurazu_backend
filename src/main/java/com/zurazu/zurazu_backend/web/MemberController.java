@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public ResponseEntity<CommonResponse> registerMember(@Valid RegisterMemberDTO memberWebDTO) {
+    public ResponseEntity<CommonResponse> registerMember(@RequestBody @Valid RegisterMemberDTO memberWebDTO) {
         memberService.registerMemberByEmail(memberWebDTO);
 
         CommonResponse response = CommonResponse.builder()
@@ -40,7 +41,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<CommonResponse> loginMember(@Valid MemberWebDTO memberWebDTO) {
+    public ResponseEntity<CommonResponse> loginMember(@RequestBody @Valid MemberWebDTO memberWebDTO) {
         MemberDTO member = memberService.loginMemberByEmail(memberWebDTO).orElseThrow(()->new LoginFailedException());
 
         HashMap<String, Object> map = new HashMap<>();
@@ -59,7 +60,7 @@ public class MemberController {
     }
 
     @PostMapping("/refreshToken")
-    public ResponseEntity<CommonResponse> refreshTokenMember(@Valid RefreshTokenDTO refreshTokenDTO) {
+    public ResponseEntity<CommonResponse> refreshTokenMember(@RequestBody @Valid RefreshTokenDTO refreshTokenDTO) {
         // refresh 토큰을 검증하고 맞다면 access token 발급
         String accessToken = memberService.validMemberRefreshToken(refreshTokenDTO).orElseThrow(()-> new CustomJwtRuntimeException());
 

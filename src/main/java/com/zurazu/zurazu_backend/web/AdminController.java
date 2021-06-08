@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +30,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/register")
-    public ResponseEntity<CommonResponse> registerAdmin(@Valid RegisterAdminDTO adminDTO) { //@Valid로 파라미터 validation
+    public ResponseEntity<CommonResponse> registerAdmin(@RequestBody @Valid RegisterAdminDTO adminDTO) { //@Valid로 파라미터 validation
         adminService.registerAdmin(adminDTO); // 실패 시 service나 repo가 exception 던짐
 
         CommonResponse response = CommonResponse.builder()
@@ -40,7 +41,7 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<CommonResponse> loginAdmin(@Valid LoginAdminDTO adminDTO) {
+    public ResponseEntity<CommonResponse> loginAdmin(@RequestBody @Valid LoginAdminDTO adminDTO) {
         AdminDTO admin = adminService.loginAdmin(adminDTO).orElseThrow(()->new LoginFailedException());
 
         if(admin.getGrade() <= 0) {
@@ -65,7 +66,7 @@ public class AdminController {
     }
 
     @PostMapping("/refreshToken")
-    public ResponseEntity<CommonResponse> refreshTokenAdmin(@Valid RefreshTokenDTO adminDTO) {
+    public ResponseEntity<CommonResponse> refreshTokenAdmin(@RequestBody @Valid RefreshTokenDTO adminDTO) {
         // refresh 토큰을 검증하고 맞다면 access token 발급
         String accessToken = adminService.validAdminRefreshToken(adminDTO).orElseThrow(()-> new CustomJwtRuntimeException());
 
