@@ -6,6 +6,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
@@ -130,6 +131,17 @@ public class GlobalExceptionHandler {
                 .code(ErrorCode.NOT_FOUND_PRODUCT.getCode())
                 .message(ErrorCode.NOT_FOUND_PRODUCT.getMessage())
                 .status(ErrorCode.NOT_FOUND_PRODUCT.getStatus())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler(UnsupportedMediaTypeStatusException.class)
+    protected ResponseEntity<ErrorResponse> handleUnsupportedMediaTypeStatusException(UnsupportedMediaTypeStatusException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getCode())
+                .message(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage())
+                .status(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getStatus())
                 .build();
         return new ResponseEntity<>(response, response.getStatus());
     }
