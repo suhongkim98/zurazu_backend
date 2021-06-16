@@ -7,5 +7,6 @@ public class ProductThumbnailDTO {
     private int productIdx;
     private String name;
     private String brand;
+    private int price;
     private RegisterProductImageDTO image;
 }
