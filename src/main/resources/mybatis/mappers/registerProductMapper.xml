@@ -107,13 +107,17 @@
         LEFT JOIN register_product_images_tb AS i ON p.idx = i.register_product_idx
         INNER JOIN sub_categories_tb AS sct ON sct.idx = p.sub_category_idx
         INNER JOIN main_categories_tb AS mct ON mct.idx = sct.main_category_idx
-        WHERE mct.idx = #{mainCategoryIdx}
-        <if test='subCategoryIdx != null'>
-            AND sct.idx = #{subCategoryIdx}
-        </if>
-        <if test="notOnlySelectProgressing == null">
-            AND p.sale_status = 'PROGRESSING'
-        </if>
+        <where>
+            <if test="mainCategoryIdx != null">
+                mct.idx = #{mainCategoryIdx}
+            </if>
+            <if test="subCategoryIdx != null">
+                AND sct.idx = #{subCategoryIdx}
+            </if>
+            <if test="notOnlySelectProgressing == null">
+                AND p.sale_status = 'PROGRESSING'
+            </if>
+        </where>
         GROUP BY p.idx                              <!-- 상품idx로 그룹화한다 -->
         HAVING i.idx = MIN(imgIdx)<!-- 그룹 안에서 가장 최근에 생성된 이미지 한 개만 가져온다 -->
         LIMIT #{limit} OFFSET #{offset}

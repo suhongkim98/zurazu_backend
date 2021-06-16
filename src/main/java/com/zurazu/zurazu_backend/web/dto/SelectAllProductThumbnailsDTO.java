@@ -10,7 +10,6 @@ public class SelectAllProductThumbnailsDTO {
     private Integer offset;
     @NotNull
     private Integer limit;
-    @NotNull
     private Integer mainCategoryIdx;
     private Integer subCategoryIdx;
     private Boolean notOnlySelectProgressing;
