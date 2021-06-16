@@ -19,6 +19,6 @@ public class RegisterApplySellProductDTO {
     @NotNull(message = "옷 상태 입력이 필요합니다. 0~4")
     @Max(4)
     private Integer clothingStatus;
-    private GenderType gender = GenderType.MALE;
+    private GenderType gender = GenderType.ALL;
     private String comments;
 }
