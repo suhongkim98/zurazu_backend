@@ -6,7 +6,8 @@
         <result column="member_idx" property="memberIdx"/>
         <result column="category_idx" property="categoryIdx"/>
         <result column="brand_name" property="brandName"/>
-        <result column="price" property="price"/>
+        <result column="purchasePrice" property="purchasePrice"/>
+        <result column="desiredPrice" property="desiredPrice"/>
         <result column="clothing_size" property="clothingSize"/>
         <result column="clothing_status" property="clothingStatus"/>
         <result column="gender" property="gender"/>
@@ -28,7 +29,8 @@
         ( member_idx,
         category_idx,
         brand_name,
-        price,
+        purchasePrice,
+        desiredPrice,
         clothing_size,
         clothing_status,
         gender,

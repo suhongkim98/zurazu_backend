@@ -27,7 +27,8 @@ public class ApplySellProductService implements ApplySellProductServiceInterface
         //판매 신청 등록
         ApplySellProductDTO sellProductDTO = new ApplySellProductDTO();
         sellProductDTO.setMemberIdx(idx);
-        sellProductDTO.setPrice(registerApplySellProductDTO.getPrice());
+        sellProductDTO.setPurchasePrice(registerApplySellProductDTO.getPurchasePrice());
+        sellProductDTO.setDesiredPrice(registerApplySellProductDTO.getDesiredPrice());
         sellProductDTO.setBrandName(registerApplySellProductDTO.getBrandName());
         sellProductDTO.setCategoryIdx(registerApplySellProductDTO.getCategoryIdx());
         sellProductDTO.setClothingSize(registerApplySellProductDTO.getClothingSize());

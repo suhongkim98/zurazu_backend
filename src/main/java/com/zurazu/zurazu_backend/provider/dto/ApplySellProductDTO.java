@@ -12,7 +12,8 @@ public class ApplySellProductDTO {
     private int memberIdx;
     private int categoryIdx;
     private String brandName;
-    private int price;
+    private int purchasePrice;
+    private int desiredPrice;
     private String clothingSize;
     private int clothingStatus;
     private GenderType gender;
