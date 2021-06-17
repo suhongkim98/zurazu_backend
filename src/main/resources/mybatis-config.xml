@@ -22,5 +22,6 @@
         <typeAlias alias="selectAllPurchaseLimitDTO" type="com.zurazu.zurazu_backend.web.dto.SelectAllPurchaseLimitDTO"/>
         <typeAlias alias="confirmPurchaseDTO" type="com.zurazu.zurazu_backend.provider.dto.ConfirmPurchaseDTO"/>
         <typeAlias alias="memberProfileDTO" type="com.zurazu.zurazu_backend.provider.dto.MemberProfileDTO"/>
+        <typeAlias alias="zurazuTermsDTO" type="com.zurazu.zurazu_backend.provider.dto.ZurazuTermsDTO"/>
     </typeAliases>
 </configuration>
