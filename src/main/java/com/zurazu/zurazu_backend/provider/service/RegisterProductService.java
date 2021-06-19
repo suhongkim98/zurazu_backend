@@ -118,4 +118,14 @@ public class RegisterProductService implements RegisterProductServiceInterface {
             applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.REGISTERED, registerProduct.getApplySellProductIdx());
         }
     }
+
+    @Override
+    public void deleteRegisteredProduct(String registerNumber) {
+        RegisterProductDTO product = registerProductDAO.selectOneRegisterProduct(registerNumber);
+        if(product == null) {
+            throw new NotFoundProductException();
+        }
+        applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.AGREE, product.getApplySellProductIdx());
+        registerProductDAO.deleteRegisteredProduct(product);
+    }
 }

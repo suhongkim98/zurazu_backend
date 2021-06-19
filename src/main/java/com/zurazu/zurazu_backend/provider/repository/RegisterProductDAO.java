@@ -2,10 +2,12 @@ package com.zurazu.zurazu_backend.provider.repository;
 
 import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.repository.RegisterProductDAOInterface;
+import com.zurazu.zurazu_backend.exception.errors.NotFoundProductException;
 import com.zurazu.zurazu_backend.provider.dto.ColorChipDTO;
 import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO;
+import com.zurazu.zurazu_backend.util.S3Uploader;
 import com.zurazu.zurazu_backend.web.dto.RequestRegisterProductDTO;
 import com.zurazu.zurazu_backend.web.dto.SelectAllProductThumbnailsDTO;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RegisterProductDAO implements RegisterProductDAOInterface {
     private final SqlSessionTemplate sqlSession;
+    private final S3Uploader s3Uploader;
 
     @Override
     public void registerProduct(RequestRegisterProductDTO requestRegisterProductDTO) {
@@ -59,5 +62,19 @@ public class RegisterProductDAO implements RegisterProductDAOInterface {
         dto.setSaleStatus(type);
         dto.setIdx(productIdx);
         sqlSession.update("registerProductTable.updateProductStatus", dto);
+    }
+
+    @Override
+    public void deleteRegisteredProduct(RegisterProductDTO product) {
+        List<RegisterProductImageDTO> productImages = getAllImages(product.getIdx());
+        for(RegisterProductImageDTO image : productImages) {
+            s3Uploader.deleteFileFromS3(image.getUrl()); // s3에서 이미지 삭제
+        }
+
+        ColorChipDTO colorChip = product.getColorChip();
+        s3Uploader.deleteFileFromS3(colorChip.getUrl()); // s3에서 컬러칩 이미지 삭제
+
+        sqlSession.delete("registerProductTable.deleteColorChip", colorChip.getIdx());
+        sqlSession.delete("registerProductTable.deleteRegisteredProduct", product.getIdx());
     }
 }

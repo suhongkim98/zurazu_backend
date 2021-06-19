@@ -19,4 +19,5 @@ public interface RegisterProductDAOInterface {
     void registerColorChip(ColorChipDTO colorChipDTO);
     void insertProductImages(List<RegisterProductImageDTO> list);
     void updateRegisterProductStatus(SaleStatusType type, int productIdx);
+    void deleteRegisteredProduct(RegisterProductDTO product);
 }

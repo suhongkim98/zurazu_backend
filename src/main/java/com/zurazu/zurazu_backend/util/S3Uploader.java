@@ -48,8 +48,12 @@ public class S3Uploader {
         String uploadImageUrl = putS3(uploadFile, fileName);
         return uploadImageUrl;
     }
-    public void deleteFileFromS3(String key) {
+    public void deleteFileFromS3(String fullUrl) {
     	//key는 경로, 파일이름 풀로 ex) static/test.txt
+		String url = "amazonaws.com/";
+		String key = fullUrl.substring(
+				fullUrl.indexOf(url) + url.length()
+		);
     	deleteFile(key);
     }
 

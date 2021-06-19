@@ -18,4 +18,5 @@ public interface RegisterProductServiceInterface {
     Optional<RegisterProductDTO> selectOneRegisterProduct(int idx);
     Optional<List<RegisterProductImageDTO>> getAllProductImages(int productIdx);
     void updateRegisterProductStatus(SaleStatusType type, int productIdx);
+    void deleteRegisteredProduct(String registerNumber);
 }

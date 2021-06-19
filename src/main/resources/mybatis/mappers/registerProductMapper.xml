@@ -35,6 +35,7 @@
     </resultMap>
     <resultMap id="colorInProductMap" type="colorChipDTO">
         <result column="idx" property="registerProductIdx"/>
+        <result column="color_idx" property="idx"/>
         <result column="color_text" property="colorText"/>
         <result column="color_url" property="url"/>
     </resultMap>
@@ -124,14 +125,14 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
     <select id="selectOneProduct" resultMap="productMap">
-        SELECT p.*, cct.color_text, cct.url AS color_url, sct.idx AS category_idx, sct.korean AS category_name
+        SELECT p.*, cct.color_text, cct.idx AS color_idx, cct.url AS color_url, sct.idx AS category_idx, sct.korean AS category_name
         FROM register_products_tb AS p
         LEFT JOIN sub_categories_tb AS sct ON sct.idx = p.sub_category_idx
         LEFT JOIN color_chips_tb AS cct ON cct.register_product_idx = p.idx
         WHERE p.idx = #{idx}
     </select>
     <select id="selectOneProductByRegisterNumber" resultMap="productMap">
-        SELECT p.*, cct.color_text, cct.url AS color_url, sct.idx AS category_idx, sct.korean AS category_name
+        SELECT p.*, cct.color_text, cct.idx AS color_idx, cct.url AS color_url, sct.idx AS category_idx, sct.korean AS category_name
         FROM register_products_tb AS p
         LEFT JOIN sub_categories_tb AS sct ON sct.idx = p.sub_category_idx
         LEFT JOIN color_chips_tb AS cct ON cct.register_product_idx = p.idx
@@ -146,4 +147,12 @@
         SET sale_status = #{saleStatus}
         WHERE idx = #{idx}
     </update>
+    <delete id="deleteRegisteredProduct">
+        DELETE FROM register_products_tb
+        WHERE idx = #{idx}
+    </delete>
+    <delete id="deleteColorChip">
+        DELETE FROM color_chips_tb
+        WHERE idx = #{idx}
+    </delete>
 </mapper>

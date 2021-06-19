@@ -6,6 +6,7 @@ import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO;
 import com.zurazu.zurazu_backend.provider.service.RegisterProductService;
 import com.zurazu.zurazu_backend.web.dto.CommonResponse;
+import com.zurazu.zurazu_backend.web.dto.RequestDeleteProductDTO;
 import com.zurazu.zurazu_backend.web.dto.RequestRegisterProductDTO;
 import com.zurazu.zurazu_backend.web.dto.SelectAllProductThumbnailsDTO;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +79,18 @@ public class RegisterProductController {
         int productIdx = (int)params.get("productIdx");
         registerProductService.updateRegisterProductStatus(type, productIdx);
 
+        HashMap<String, Object> map = new HashMap<>();
+
+        CommonResponse response = CommonResponse.builder()
+                .status(HttpStatus.OK)
+                .message("성공")
+                .list(map)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @PostMapping("/admin/product/delete")
+    ResponseEntity<CommonResponse> deleteRegisteredProduct(@RequestBody @Valid RequestDeleteProductDTO requestDeleteProductDTO) {
+        registerProductService.deleteRegisteredProduct(requestDeleteProductDTO.getRegisterNumber());
         HashMap<String, Object> map = new HashMap<>();
 
         CommonResponse response = CommonResponse.builder()
