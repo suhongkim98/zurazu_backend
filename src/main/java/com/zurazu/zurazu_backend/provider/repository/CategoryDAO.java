@@ -29,5 +29,10 @@ public class CategoryDAO implements CategoryDAOInterface {
         return sqlSession.selectList("categoryTable.selectAllSubCategories");
     }
 
+    @Override
+    public SubCategoryDTO getSubCategoryInfo(int idx) {
+        return sqlSession.selectOne("categoryTable.selectOneSubCategory", idx);
+    }
+
 
 }

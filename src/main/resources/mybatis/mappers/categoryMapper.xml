@@ -38,4 +38,10 @@
         WHERE s.main_category_idx = #{mainIdx}
         ORDER BY priority;
     </select>
+    <select id="selectOneSubCategory" resultMap="subCategoryMap">
+        SELECT s.*, m.idx AS main_idx, m.korean AS main_korean, m.english AS main_english
+        FROM sub_categories_tb AS s
+        INNER JOIN main_categories_tb AS m ON m.idx = s.main_category_idx
+        WHERE s.idx = #{idx}
+    </select>
 </mapper>

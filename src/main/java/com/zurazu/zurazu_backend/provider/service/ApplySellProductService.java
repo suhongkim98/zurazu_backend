@@ -2,9 +2,11 @@ package com.zurazu.zurazu_backend.provider.service;
 
 import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.core.service.ApplySellProductServiceInterface;
+import com.zurazu.zurazu_backend.exception.errors.NotFoundCategoryException;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductDTO;
 import com.zurazu.zurazu_backend.provider.dto.ApplySellProductImageDTO;
 import com.zurazu.zurazu_backend.provider.repository.ApplySellProductDAO;
+import com.zurazu.zurazu_backend.provider.repository.CategoryDAO;
 import com.zurazu.zurazu_backend.util.S3Uploader;
 import com.zurazu.zurazu_backend.web.dto.RegisterApplySellProductDTO;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +23,14 @@ import java.util.Optional;
 public class ApplySellProductService implements ApplySellProductServiceInterface {
     private final ApplySellProductDAO applySellProductDAO;
     private final S3Uploader s3Uploader;
+    private final CategoryDAO categoryDAO;
 
     @Override
     public void registerProduct(RegisterApplySellProductDTO registerApplySellProductDTO, Map<String, MultipartFile> fileMap, int idx) {
         //판매 신청 등록
+        if(categoryDAO.getSubCategoryInfo(registerApplySellProductDTO.getCategoryIdx()) == null) {
+            throw new NotFoundCategoryException();
+        }
         ApplySellProductDTO sellProductDTO = new ApplySellProductDTO();
         sellProductDTO.setMemberIdx(idx);
         sellProductDTO.setPurchasePrice(registerApplySellProductDTO.getPurchasePrice());

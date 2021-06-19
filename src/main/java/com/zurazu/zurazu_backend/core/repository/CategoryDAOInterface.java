@@ -9,4 +9,5 @@ public interface CategoryDAOInterface {
     List<MainCategoryDTO> getMainCategories();
     List<SubCategoryDTO> getSubCategories(Integer mainIdx); // 매개변수 있으면 전체 서브카테고리 출력
     List<SubCategoryDTO> getAllSubCategories();
+    SubCategoryDTO getSubCategoryInfo(int idx);
 }
