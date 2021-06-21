@@ -1,6 +1,8 @@
 package com.zurazu.zurazu_backend.exception;
 
 import com.zurazu.zurazu_backend.exception.errors.*;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -40,6 +42,26 @@ public class GlobalExceptionHandler {
                 .code(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getCode())
                 .message(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage())
                 .status(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getStatus())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+    @ExceptionHandler(FileSizeLimitExceededException.class)
+    protected ResponseEntity<ErrorResponse> handleFileSizeLimitExceededException(FileSizeLimitExceededException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.FILE_SIZE_ESCEED.getCode())
+                .message(ErrorCode.FILE_SIZE_ESCEED.getMessage())
+                .status(ErrorCode.FILE_SIZE_ESCEED.getStatus())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+    @ExceptionHandler(SizeLimitExceededException.class)
+    protected ResponseEntity<ErrorResponse> handleSizeLimitExceededException(SizeLimitExceededException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.REQUEST_FILE_SIZE_EXCEED.getCode())
+                .message(ErrorCode.REQUEST_FILE_SIZE_EXCEED.getMessage())
+                .status(ErrorCode.REQUEST_FILE_SIZE_EXCEED.getStatus())
                 .build();
         return new ResponseEntity<>(response, response.getStatus());
     }
