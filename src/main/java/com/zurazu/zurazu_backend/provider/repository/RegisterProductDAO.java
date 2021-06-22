@@ -66,15 +66,15 @@ public class RegisterProductDAO implements RegisterProductDAOInterface {
 
     @Override
     public void deleteRegisteredProduct(RegisterProductDTO product) {
+        ColorChipDTO colorChip = product.getColorChip();
+        sqlSession.delete("registerProductTable.deleteColorChip", colorChip.getIdx());
+        s3Uploader.deleteFileFromS3(colorChip.getUrl()); // s3에서 컬러칩 이미지 삭제
+
         List<RegisterProductImageDTO> productImages = getAllImages(product.getIdx());
+        sqlSession.delete("registerProductTable.deleteRegisteredProduct", product.getIdx());
         for(RegisterProductImageDTO image : productImages) {
             s3Uploader.deleteFileFromS3(image.getUrl()); // s3에서 이미지 삭제
         }
 
-        ColorChipDTO colorChip = product.getColorChip();
-        s3Uploader.deleteFileFromS3(colorChip.getUrl()); // s3에서 컬러칩 이미지 삭제
-
-        sqlSession.delete("registerProductTable.deleteColorChip", colorChip.getIdx());
-        sqlSession.delete("registerProductTable.deleteRegisteredProduct", product.getIdx());
     }
 }

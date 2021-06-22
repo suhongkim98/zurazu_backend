@@ -3,19 +3,19 @@ package com.zurazu.zurazu_backend.provider.service;
 import com.zurazu.zurazu_backend.core.enumtype.ApplySellStatusType;
 import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.service.RegisterProductServiceInterface;
+import com.zurazu.zurazu_backend.exception.errors.ForbiddenDeleteProductException;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundColorChipException;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundProductException;
 import com.zurazu.zurazu_backend.exception.errors.NotFoundTypeException;
-import com.zurazu.zurazu_backend.provider.dto.ColorChipDTO;
-import com.zurazu.zurazu_backend.provider.dto.ProductThumbnailDTO;
-import com.zurazu.zurazu_backend.provider.dto.RegisterProductDTO;
-import com.zurazu.zurazu_backend.provider.dto.RegisterProductImageDTO;
+import com.zurazu.zurazu_backend.provider.dto.*;
 import com.zurazu.zurazu_backend.provider.repository.ApplySellProductDAO;
 import com.zurazu.zurazu_backend.provider.repository.CategoryDAO;
+import com.zurazu.zurazu_backend.provider.repository.PurchaseInfoDAO;
 import com.zurazu.zurazu_backend.provider.repository.RegisterProductDAO;
 import com.zurazu.zurazu_backend.util.S3Uploader;
 import com.zurazu.zurazu_backend.web.dto.RequestRegisterProductDTO;
 import com.zurazu.zurazu_backend.web.dto.SelectAllProductThumbnailsDTO;
+import com.zurazu.zurazu_backend.web.dto.SelectAllPurchaseLimitDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +32,7 @@ public class RegisterProductService implements RegisterProductServiceInterface {
     private final ApplySellProductDAO applySellProductDAO;
     private final CategoryDAO categoryDAO;
     private final S3Uploader s3Uploader;
+    private final PurchaseInfoDAO purchaseInfoDAO;
     @Override
     public void registerProduct(RequestRegisterProductDTO requestRegisterProductDTO, Map<String, MultipartFile> fileMap) {
         //컬러칩 파일 없으면 익셉션 발행
@@ -125,7 +126,12 @@ public class RegisterProductService implements RegisterProductServiceInterface {
         if(product == null) {
             throw new NotFoundProductException();
         }
-        applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.AGREE, product.getApplySellProductIdx());
+        PurchaseProductDTO purchaseInfo = purchaseInfoDAO.selectOnePurchaseHistory(product.getIdx());
+        if(purchaseInfo != null) {
+            //구매내역이 존재하므로 exception
+            throw new ForbiddenDeleteProductException();
+        }
         registerProductDAO.deleteRegisteredProduct(product);
+        applySellProductDAO.updateProductSaleStatus(ApplySellStatusType.AGREE, product.getApplySellProductIdx());
     }
 }

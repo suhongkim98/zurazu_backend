@@ -21,7 +21,8 @@ public enum ErrorCode {
 	NOT_FOUND_CATEGORY(HttpStatus.NOT_FOUND, "CATEGORY001", "NOT FOUND CATEGORY"),
     NOT_FOUND_TYPE(HttpStatus.NOT_FOUND,"TYPE001", "NOT FOUND TYPE"),
     NOT_FOUND_COLOR_CHIP(HttpStatus.NOT_FOUND,"PRODUCT001", "NOT FOUND COLOR CHIP"),
-    NOT_FOUND_PRODUCT(HttpStatus.NOT_FOUND,"PRODUCT002", "NOT FOUND PRODUCT");
+    NOT_FOUND_PRODUCT(HttpStatus.NOT_FOUND,"PRODUCT002", "NOT FOUND PRODUCT"),
+    FORBIDDEN_DELETE_PRODUCT(HttpStatus.FORBIDDEN,"PURCHASE001", "구매내역이 존재합니다.");
     private final String code;
     private final String message;
     private final HttpStatus status;

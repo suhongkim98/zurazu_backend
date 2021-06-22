@@ -1,6 +1,5 @@
 package com.zurazu.zurazu_backend.provider.repository;
 
-import com.zurazu.zurazu_backend.core.enumtype.SaleStatusType;
 import com.zurazu.zurazu_backend.core.repository.PurchaseInfoDAOInterface;
 import com.zurazu.zurazu_backend.provider.dto.ConfirmPurchaseDTO;
 import com.zurazu.zurazu_backend.provider.dto.PurchaseProductDTO;
@@ -47,5 +46,10 @@ public class PurchaseInfoDAO implements PurchaseInfoDAOInterface {
         confirm.setOrderNumber(orderNumber);
         confirm.setConfirm(isConfirm);
         sqlSession.update("purchaseInfoTable.updateConfirmPurchase", confirm);
+    }
+
+    @Override
+    public PurchaseProductDTO selectOnePurchaseHistory(int productIdx) {
+        return sqlSession.selectOne("purchaseInfoTable.selectOnePurchaseHistoryByProductIdx", productIdx);
     }
 }

@@ -167,5 +167,14 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, response.getStatus());
     }
+    @ExceptionHandler(ForbiddenDeleteProductException.class)
+    protected ResponseEntity<ErrorResponse> handleForbiddenDeleteProductException(ForbiddenDeleteProductException e) {
 
+        ErrorResponse response = ErrorResponse.builder()
+                .code(ErrorCode.FORBIDDEN_DELETE_PRODUCT.getCode())
+                .message(ErrorCode.FORBIDDEN_DELETE_PRODUCT.getMessage())
+                .status(ErrorCode.FORBIDDEN_DELETE_PRODUCT.getStatus())
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
 }
